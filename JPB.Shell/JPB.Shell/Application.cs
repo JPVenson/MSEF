@@ -22,7 +22,6 @@ namespace JPB.Shell
             Main2();
         }
 
-
         [DebuggerStepThrough]
         public static void Main2()
         {
@@ -30,12 +29,12 @@ namespace JPB.Shell
             app.Run();
         }
 
-        [DebuggerStepThrough]
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
             try
             {
+                ServicePool.PreLoadServicePool("JPB");
                 var defaultSingelService = ServicePool.Instance.GetDefaultSingelService<IApplicationContainer>();
 
                 if (defaultSingelService == null)

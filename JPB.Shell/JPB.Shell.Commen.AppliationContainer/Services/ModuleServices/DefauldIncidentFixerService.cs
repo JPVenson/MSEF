@@ -1,0 +1,53 @@
+﻿#region Jean-Pierre Bachmann
+// Erstellt von Jean-Pierre Bachmann am 15:56
+#endregion
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using JPB.Shell.Contracts.Attributes;
+using JPB.Shell.Contracts.Interfaces;
+using JPB.Shell.Contracts.Interfaces.Metadata;
+using JPB.Shell.Contracts.Interfaces.Services;
+using JPB.Shell.Contracts.Interfaces.Services.ApplicationServices;
+using JPB.Shell.MEF.Services;
+
+namespace JPB.Shell.CommenAppliationContainer.Services.ModuleServices
+{
+    [ServiceExport("DefauldIncidentFixerService", true,typeof(IIncidentFixerService))]
+    public class DefauldIncidentFixerService : IIncidentFixerService
+    {
+        #region Implementation of IService
+
+        public bool IsResponsibleFor(Type targedType)
+        {
+            return false;
+        }
+
+        public Lazy<IService, IServiceMetadata> OnIncident(IEnumerable<Lazy<IService, IServiceMetadata>> defauldInplementations)
+        {
+            var typedFinder = ServicePool.Instance.GetServices<IIncidentFixerService>();
+
+            var inplementations = defauldInplementations as Lazy<IService, IServiceMetadata>[] ?? defauldInplementations.ToArray();
+            var responsiv = inplementations.Select(defauldInplementation => 
+                typedFinder.FirstOrDefault(incidentFixerService => 
+                    defauldInplementation.Metadata.Contracts.Any(incidentFixerService.IsResponsibleFor)))
+                    .FirstOrDefault(firstOrDefault => firstOrDefault != null);
+
+            //var responsiv =
+            //    typedFinder.FirstOrDefault(incidentFixerService => incidentFixerService.IsResponsibleFor());
+            return responsiv != null ? responsiv.OnIncident(inplementations) : null;
+        }
+
+        #endregion
+
+        #region Implementation of IService
+
+        public void OnStart(IApplicationContext application)
+        {
+            //_context = application;
+        }
+
+        #endregion
+    }
+}

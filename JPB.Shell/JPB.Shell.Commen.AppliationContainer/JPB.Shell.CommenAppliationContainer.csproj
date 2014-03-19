@@ -5,16 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B2135C3A-535C-4195-94AE-DDF7BAE83A97}</ProjectGuid>
-    <OutputType>library</OutputType>
+    <ProjectGuid>{EA8293CE-FEEA-40EB-876E-DB5FBBFCF09C}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>JPB.Shell.VisualServiceScheduler</RootNamespace>
-    <AssemblyName>JPB.Shell.VisualServiceScheduler</AssemblyName>
+    <RootNamespace>JPB.Shell.CommenAppliationContainer</RootNamespace>
+    <AssemblyName>JPB.Shell.CommenAppliationContainer</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,61 +31,38 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="ReachFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\ImportLogEx.cs" />
-    <Compile Include="Model\MetadataEx.cs" />
-    <Compile Include="Model\ServiceEx.cs" />
-    <Compile Include="Module.cs" />
+    <Compile Include="Command\DelegateCommand.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ModuleServices\DefauldIncidentFixerService.cs" />
+    <Compile Include="Services\ModuleServices\IncidentFixer\ErrorWindowIncidentFixer.cs" />
+    <Compile Include="Services\ModuleServices\IncidentFixer\VisualMainModuleIncidentFixer.cs" />
+    <Compile Include="Services\Shell\ErrorWindowInvoker.cs" />
+    <Compile Include="Services\Shell\VisualModule\VisualMainWindow.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
-    <Page Include="View\VisualServiceSchedulerView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="Model\TypeReflection.cs" />
-    <Compile Include="View\VisualServiceSchedulerView.xaml.cs">
-      <DependentUpon>VisualServiceSchedulerView.xaml</DependentUpon>
-      <SubType>Code</SubType>
+    <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="View\MainWindowView.xaml.cs">
+      <DependentUpon>MainWindowView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <AppDesigner Include="Properties\" />
+    <Folder Include="Services\ModuleServices\VisualModule\" />
+    <Folder Include="Services\Worker\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\JPB.Shell.Contracts\JPB.Shell.Contracts.csproj">
@@ -103,6 +77,12 @@
       <Project>{AF0A3EDB-4B05-48D7-911E-032E5199313C}</Project>
       <Name>JPB.Shell</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="View\MainWindowView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

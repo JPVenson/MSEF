@@ -2,6 +2,8 @@
 // Erstellt von Jean-Pierre Bachmann am 11:59
 #endregion
 
+using JPB.Shell.Contracts.Interfaces.Services;
+
 namespace JPB.Shell.VisualServiceScheduler.Model
 {
     public class ServiceEx : ViewModelBase

@@ -29,24 +29,43 @@ namespace JPB.Shell.MEF.Services
 {
     public class ServicePool : IServicePool
     {
-        private ServicePool()
+        private ServicePool(string priorityKey, string[] sublookuppaths)
         {
-            Assembly executingAssembly = Assembly.GetExecutingAssembly();
-            string directoryName = Path.GetDirectoryName(executingAssembly.Location);
-
-            _strongNameCatalog = new StrongNameCatalog(new[] { directoryName }, true);
+            _strongNameCatalog = new StrongNameCatalog(sublookuppaths, true);
+            _strongNameCatalog.PriorityKey = priorityKey;
+            _strongNameCatalog.AsyncInit();
             Container = new CompositionContainer(_strongNameCatalog);
-            //Container.SatisfyImportsOnce(this);
         }
 
-        internal static ServicePool CreateServicePool()
+        internal static ServicePool CreateParamServicePool(string priorityKey, params string[] subPaths)
         {
-            var pool = new ServicePool();
+            var pool = new ServicePool(priorityKey, subPaths);
             Instance = pool;
             if (ApplicationContainer == null)
                 ApplicationContainer = new ApplicationContext(ImportPool.Instance, MessageBroker.Instance, pool, DataBroker.Instance, VisualModuleManager.Instance);
             pool.InitLoading();
             return pool;
+        }
+
+        internal static ServicePool CreateParamServicePool(string priorityKey)
+        {
+            return CreateParamServicePool(priorityKey,
+                new[] {Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)});
+        }
+
+        internal static ServicePool CreateServicePool()
+        {
+            return CreateParamServicePool(string.Empty);
+        }
+
+        public static void PreLoadServicePool(string priorityKey)
+        {
+            Instance = CreateParamServicePool(priorityKey);
+        }
+
+        public static void PreLoadServicePool(string priorityKey, params string[] sublookuppaths)
+        {
+            Instance = CreateParamServicePool(priorityKey, sublookuppaths);
         }
 
         /// <summary>

@@ -13,8 +13,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Security;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using JPB.Shell.MEF.Log;
+using JPB.Shell.MEF.Properties;
 
 namespace JPB.Shell.MEF.Model
 {
@@ -45,8 +48,11 @@ namespace JPB.Shell.MEF.Model
             _watchDirectorys = watchDirectorys;
             _trustedKeys = trustedKeys;
             LowPriorityList = new ConcurrentQueue<string>();
-            Init();
         }
+
+        public string PriorityKey { get; set; }
+
+        public bool WithCheckForDuplicates { get; set; }
 
         public override IQueryable<ComposablePartDefinition> Parts
         {
@@ -55,63 +61,62 @@ namespace JPB.Shell.MEF.Model
 
         public ConcurrentQueue<string> LowPriorityList { get; set; }
 
-        private void Init()
+        public void AsyncInit()
         {
             //Debugger.Launch();
-            foreach (string internalpath in _paths)
+            foreach (string internalpath in _paths.Where(Directory.Exists))
             {
-                if (!Directory.Exists(internalpath))
-                    continue;
                 if (_watchDirectorys)
                     _watchers.Add(CreateWatcher(internalpath));
 
-                string[] files = Directory.GetFiles(internalpath, "*.dll");
+                var files = Directory.GetFiles(internalpath, "*.dll");
 
-                IEnumerable<IGrouping<string, string>> duplicates = files
-                    .GroupBy(i => i)
-                    .Where(g => g.Count() > 1);
-
-                foreach (var group in duplicates)
+                if (WithCheckForDuplicates)
                 {
-                    Assembly currass = Assembly.LoadFrom(group.First());
-                    var exep = new List<string>();
+                    var duplicates = files
+                        .GroupBy(i => i)
+                        .Where(g => g.Count() > 1);
 
-                    foreach (string assamblys in group)
+                    foreach (var group in duplicates)
                     {
-                        Assembly buffass = Assembly.LoadFrom(assamblys);
-                        if (buffass.GetName().Version > currass.GetName().Version)
-                            currass = buffass;
-                        else
-                            exep.Add(assamblys);
+                        var currass = Assembly.LoadFrom(@group.First());
+                        var exep = new List<string>();
+
+                        foreach (string assamblys in @group)
+                        {
+                            Assembly buffass = Assembly.LoadFrom(assamblys);
+                            if (buffass.GetName().Version > currass.GetName().Version)
+                                currass = buffass;
+                            else
+                                exep.Add(assamblys);
+                        }
+                        files = files.Except(exep).ToArray();
                     }
-                    files = files.Except(exep).ToArray();
                 }
 
-#if !NonParallelEnumeration
-                ParallelLoopResult parallelLoopResult = Parallel.ForEach(files, CheckAndAddAssambly);
+                var parallelLoopResult = Parallel.ForEach(files, CheckAndAddAssambly);
 
                 if (!parallelLoopResult.IsCompleted)
                     throw new ArgumentException("The Strong name Catalog is Broken in his Constructor");
 
-                var task = new Task(() =>
+                var thread = new Thread(() =>
                 {
-                    foreach (string lowpriorityassambly in LowPriorityList)
+                    foreach (var lowpriorityassambly in LowPriorityList)
                         CheckAndAddAssambly(lowpriorityassambly, () => { });
                 });
-                task.Start();
-#else
-                foreach (var file in files)
-                {
-                    CheckAndAddAssambly(file, () => { });
-                }
-#endif
+                thread.SetApartmentState(ApartmentState.MTA);
+                thread.Priority = ThreadPriority.Highest;
+                thread.IsBackground = true;
+                thread.Name = "LowPriportyAssamblyCheck";
+                thread.Start();
             }
         }
 
-        private void CheckAndAddAssambly(string filename, ParallelLoopState state)
+        private void CheckAndAddAssambly([NotNull]string filename, ParallelLoopState state)
         {
-            string fileName = Path.GetFileName(filename);
-            if (!fileName.ToUpper().StartsWith("IEADPC"))
+            var fileName = Path.GetFileName(filename);
+
+            if (fileName != null && (!string.IsNullOrEmpty(PriorityKey) && !Regex.IsMatch(fileName, PriorityKey, RegexOptions.CultureInvariant)))
             {
                 LowPriorityList.Enqueue(fileName);
                 return;
@@ -160,6 +165,7 @@ namespace JPB.Shell.MEF.Model
             }
             catch (Exception e)
             {
+                IsHandeld(e, filename);
                 Console.WriteLine("first chance exception of type '" + e.GetType() + "' in assambly '" + filename +
                                   "' was NOT Handeled by StrongNameCatalog ...");
                 cancel();
@@ -182,7 +188,7 @@ namespace JPB.Shell.MEF.Model
             {
                 var assam = new AssemblyCatalog(filename);
 
-                if (assam.Parts.Count() == 0)
+                if (!assam.Parts.Any())
                 {
                     ImportPool.AddNotAnImportMessage(assam.Assembly);
                     return;

@@ -5,13 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:model1="clr-namespace:IEADPC.Shell.Log.Model;assembly=IEADPC.Shell"
              xmlns:model="clr-namespace:JPB.Shell.VisualServiceScheduler.Model"
+             xmlns:model11="clr-namespace:JPB.Shell.MEF.Log.Model;assembly=JPB.Shell.MEF"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" >
 
 
     <UserControl.Resources>
 
-        <DataTemplate DataType="{x:Type model1:LogEntry}">
+        <DataTemplate DataType="{x:Type model11:LogEntry}">
             <Border BorderBrush="Aqua" CornerRadius="2" BorderThickness="2" Margin="5">
                 <DockPanel>
                     <DockPanel DockPanel.Dock="Left">
