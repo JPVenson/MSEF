@@ -1,0 +1,211 @@
+﻿<UserControl x:Class="JPB.Shell.VisualServiceScheduler.View.VisualServiceScheduler"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:model1="clr-namespace:IEADPC.Shell.Log.Model;assembly=IEADPC.Shell"
+             xmlns:model="clr-namespace:JPB.Shell.VisualServiceScheduler.Model"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" >
+
+
+    <UserControl.Resources>
+
+        <DataTemplate DataType="{x:Type model1:LogEntry}">
+            <Border BorderBrush="Aqua" CornerRadius="2" BorderThickness="2" Margin="5">
+                <DockPanel>
+                    <DockPanel DockPanel.Dock="Left">
+                        <Label DockPanel.Dock="Top" Content="Name:"/>
+                        <Label DockPanel.Dock="Top" Content="Eigenschaften"/>
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Left">
+                        <Label DockPanel.Dock="Top" Content="{Binding Name}"/>
+                        <DataGrid DockPanel.Dock="Top" IsReadOnly="True" ItemsSource="{Binding Messages}" MaxHeight="100"/>
+                    </DockPanel>
+                </DockPanel>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type model:MetadataEx}">
+            <Border BorderBrush="Aqua" CornerRadius="2" BorderThickness="2" Margin="5">
+                <DockPanel>
+                    <DockPanel DockPanel.Dock="Left">
+                        <Label DockPanel.Dock="Top" Content="Descriptor:"/>
+                        <Label DockPanel.Dock="Top" Content="is DefauldService:"/>
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Left">
+                        <Label DockPanel.Dock="Top" Content="{Binding Metadata.Descriptor}"/>
+                        <Label DockPanel.Dock="Top" Content="{Binding Metadata.IsDefauldService}"/>
+                    </DockPanel>
+                </DockPanel>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type model:ServiceEx}">
+            <Border BorderBrush="Aqua" CornerRadius="2" BorderThickness="2" Margin="5">
+                <DockPanel>
+                    <DockPanel DockPanel.Dock="Top">
+                        <Label BorderBrush="LightSkyBlue" BorderThickness="2" DockPanel.Dock="Left" Content="Instance"></Label>
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Top">
+                        <Label BorderBrush="MidnightBlue" BorderThickness="2" DockPanel.Dock="Right" Content="{Binding Service}"></Label>
+                    </DockPanel>
+                </DockPanel>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="TypeReflection" DataType="{x:Type model:TypeReflection}">
+            <Border BorderBrush="Aqua" CornerRadius="2" BorderThickness="2" Margin="5">
+                <DockPanel LastChildFill="False">
+                    <DockPanel DockPanel.Dock="Top" LastChildFill="False">
+                        <Label DockPanel.Dock="Top" Content="Propertys"></Label>
+                        <DataGrid IsReadOnly="True" ItemsSource="{Binding Propertys}"/>
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Top" LastChildFill="False">
+                        <Label DockPanel.Dock="Top" Content="Methods"></Label>
+                        <DataGrid IsReadOnly="True" ItemsSource="{Binding MethodInfos}" />
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Top" LastChildFill="False">
+                        <Label DockPanel.Dock="Top" Content="Fields"></Label>
+                        <DataGrid IsReadOnly="True" ItemsSource="{Binding FieldsInfos}" />
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Top" LastChildFill="False">
+                        <Label DockPanel.Dock="Top" Content="Interfaces"></Label>
+                        <DataGrid IsReadOnly="True" ItemsSource="{Binding Interfaces}" />
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Top" LastChildFill="False">
+                        <Label DockPanel.Dock="Top" Content="Events"></Label>
+                        <DataGrid IsReadOnly="True" ItemsSource="{Binding EventInfos}" />
+                    </DockPanel>
+                </DockPanel>
+            </Border>
+        </DataTemplate>
+    </UserControl.Resources>
+    <TabControl>
+        <TabControl.Items>
+            <TabItem Header="Service Control">
+                <DockPanel LastChildFill="True">
+
+                    <Border BorderBrush="Aqua" Width="Auto" MinWidth="100" CornerRadius="2" BorderThickness="2" Margin="5">
+                        <DockPanel>
+                            <DockPanel Dock="Left">
+                                <Button DockPanel.Dock="Top" Content="Remove selectet Assembly on Selected metadata" Command="{Binding RemoveAssamblyCommand}"/>
+                                <DockPanel DockPanel.Dock="Top" >
+                                    <Label FontSize="15" Foreground="Red" HorizontalAlignment="Center" DockPanel.Dock="Top" Content="All Metadata (Exclude VisualServices)"/>
+                                    <DataGrid IsReadOnly="True" AutoGenerateColumns="False" ItemsSource="{Binding ServiceMetadatas}" SelectedItem="{Binding SelectedMetadata}">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="MetadataDescriptor" Binding="{Binding MetadataDescriptor}"/>
+                                            <DataGridTextColumn Header="MetadataIsDefauldService" Binding="{Binding MetadataIsDefauldService}"/>
+                                            <DataGridTextColumn Header="MetadataContract" Binding="{Binding MetadataContract}"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </DockPanel>
+
+                                <DockPanel DockPanel.Dock="Top" >
+                                    <Label FontSize="15" Foreground="Red" HorizontalAlignment="Center" DockPanel.Dock="Top" Content="Visual Metadata only"></Label>
+                                    <DataGrid IsReadOnly="True" AutoGenerateColumns="false" ItemsSource="{Binding VisualServiceMetadatas}" SelectedItem="{Binding SelectedMetadata}">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="MetadataDescriptor" Binding="{Binding MetadataDescriptor}"/>
+                                            <DataGridTextColumn Header="MetadataIsDefauldService" Binding="{Binding MetadataIsDefauldService}"/>
+                                            <DataGridTextColumn Header="MetadataContract" Binding="{Binding MetadataContract}"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </DockPanel>
+                            </DockPanel>
+                        </DockPanel>
+                    </Border>
+
+                    <Label FontSize="15" Foreground="Red" HorizontalAlignment="Center" DockPanel.Dock="Top" Content="All Services of the Selected Metadata"/>
+                    <Border BorderBrush="Aqua"  Width="Auto" MinWidth="100" CornerRadius="2" BorderThickness="2" Margin="5">
+                        <!--<DataGrid IsReadOnly="True" ItemsSource="{Binding SelectedMetadata.Services}" SelectedItem="{Binding SelectedMetadata.SelectedService}"/>-->
+                        <ListBox DockPanel.Dock="Top" ItemsSource="{Binding SelectedMetadata.Services}" SelectedItem="{Binding SelectedMetadata.SelectedService}"/>
+                    </Border>
+
+                    <Border BorderBrush="Aqua"  Width="Auto" MinWidth="100" CornerRadius="2" BorderThickness="2" Margin="5">
+                        <ContentControl DockPanel.Dock="Top" ContentTemplate="{StaticResource TypeReflection}" Content="{Binding SelectedMetadata.SelectedService.TypeReflection}"/>
+                    </Border>
+
+                </DockPanel>
+            </TabItem>
+            <TabItem Header="Service Import">
+                <DockPanel>
+                    <Label FontSize="15" Foreground="Red" HorizontalAlignment="Center" DockPanel.Dock="Top" Content="Import Logs"></Label>
+
+                    <!--<ListView ItemsSource="{Binding ImportLogEx.LogEntries}"/>-->
+
+                    <DataGrid IsReadOnly="True" AutoGenerateColumns="False" ItemsSource="{Binding ImportLogEx.LogEntries, Mode=OneTime}" SelectedItem="{Binding ImportLogEx.SelectetLogMessages}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn IsReadOnly="True" Header="Name" Binding="{Binding Name}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    
+                    <DataGrid DockPanel.Dock="Top" IsReadOnly="True" ItemsSource="{Binding ImportLogEx.SelectetLogMessages.Messages, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </DockPanel>
+            </TabItem>
+        </TabControl.Items>
+    </TabControl>
+
+</UserControl>
+
+
+<!--<ScrollViewer>
+    <DockPanel LastChildFill="True">
+
+        <Border BorderBrush="Aqua" Width="Auto" MinWidth="100" CornerRadius="2" BorderThickness="2" Margin="5">
+            <DockPanel>
+                <DockPanel Dock="Left">
+                    <Button DockPanel.Dock="Top" Content="Remove selectet Assembl on Selected metadata" Command="{Binding RemoveAssamblyCommand}"/>
+                    <DockPanel DockPanel.Dock="Top" >
+                        <Label FontSize="15" Foreground="Red" HorizontalAlignment="Center" DockPanel.Dock="Top" Content="All Metadata (Exclude VisualServices)"/>
+                        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding ServiceMetadatas}" SelectedItem="{Binding SelectedMetadata}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Name" Binding="{Binding MetadataName}"/>
+                                <DataGridTextColumn Header="DefauldService" Binding="{Binding MetadataDefauldService}"/>
+                                <DataGridTextColumn Header="MetadataContract" Binding="{Binding MetadataContract}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </DockPanel>
+
+                    <DockPanel DockPanel.Dock="Top" >
+                        <Label FontSize="15" Foreground="Red" HorizontalAlignment="Center" DockPanel.Dock="Top" Content="Visual Metadata only"></Label>
+                        <DataGrid AutoGenerateColumns="false" ItemsSource="{Binding VisualServiceMetadatas}" SelectedItem="{Binding SelectedMetadata}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="MetadataName" Binding="{Binding MetadataName}"/>
+                                <DataGridTextColumn Header="MetadataDefauldService" Binding="{Binding MetadataDefauldService}"/>
+                                <DataGridTextColumn Header="MetadataContract" Binding="{Binding MetadataContract}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </DockPanel>
+                </DockPanel>
+
+                <DockPanel>
+                    <Label FontSize="15" Foreground="Red" HorizontalAlignment="Center" DockPanel.Dock="Top" Content="Import Logs"></Label>
+
+                    <DataGrid IsReadOnly="True" AutoGenerateColumns="False" ItemsSource="{Binding ImportLog.LogEntries}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                            <DataGridTemplateColumn Header="DefauldService">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DataGrid DockPanel.Dock="Top" IsReadOnly="True" ItemsSource="{Binding Messages}" MaxHeight="100"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </DockPanel>
+        </Border>
+
+        <Label FontSize="15" Foreground="Red" HorizontalAlignment="Center" DockPanel.Dock="Top" Content="All Services of the Selected Metadata"/>
+        <Border BorderBrush="Aqua"  Width="Auto" MinWidth="100" CornerRadius="2" BorderThickness="2" Margin="5">
+            <DataGrid IsReadOnly="True" ItemsSource="{Binding SelectedMetadata.Services}" SelectedItem="{Binding SelectedMetadata.SelectedService}"/>
+            <ListBox DockPanel.Dock="Top" ItemsSource="{Binding SelectedMetadata.Services}" SelectedItem="{Binding SelectedMetadata.SelectedService}"/>
+        </Border>
+
+        <Border BorderBrush="Aqua"  Width="Auto" MinWidth="100" CornerRadius="2" BorderThickness="2" Margin="5">
+            <ContentControl DockPanel.Dock="Top" ContentTemplate="{StaticResource TypeReflection}" Content="{Binding SelectedMetadata.SelectedService.TypeReflection}"/>
+        </Border>
+
+    </DockPanel>
+</ScrollViewer>-->

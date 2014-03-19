@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{24A73ED5-9F97-45D7-9502-893FA9B1452A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JPB.Shell.Contracts</RootNamespace>
+    <AssemblyName>JPB.Shell.Contracts</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\bin\VS Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Server|AnyCPU'">
+    <OutputPath>bin\Server\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Configuration">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attributes\ServiceExportAttribute.cs" />
+    <Compile Include="Attributes\VisualServiceExportAttribute.cs" />
+    <Compile Include="Extentions\ServicePoolHelper.cs" />
+    <Compile Include="Interfaces\Services\ShellServices\Logging\ILogEntry.cs" />
+    <Compile Include="Interfaces\Metadata\IServiceMetadata.cs" />
+    <Compile Include="Interfaces\Metadata\IVisualServiceMetadata.cs" />
+    <Compile Include="Interfaces\Services\ApplicationServices\IApplicationContainer.cs" />
+    <Compile Include="Interfaces\Services\ApplicationServices\IErrorWindowService.cs" />
+    <Compile Include="Interfaces\Services\ApplicationServices\IIncidentFixerService.cs" />
+    <Compile Include="Interfaces\Services\IService.cs" />
+    <Compile Include="Interfaces\Services\ModuleServices\IApplicationProvider.cs" />
+    <Compile Include="Interfaces\Services\ModuleServices\IDataBroker.cs" />
+    <Compile Include="Interfaces\Services\ShellServices\Logging\IImportPool.cs" />
+    <Compile Include="Interfaces\Services\ModuleServices\IVisualService.cs" />
+    <Compile Include="Interfaces\Services\ShellServices\IConfigManagerService.cs" />
+    <Compile Include="Interfaces\Services\ShellServices\IVisualModuleManager.cs" />
+    <Compile Include="Interfaces\IApplicationContext.cs" />
+    <Compile Include="Interfaces\Services\ModuleServices\IMessage.cs" />
+    <Compile Include="Interfaces\Services\ShellServices\IMessageBroker.cs" />
+    <Compile Include="Interfaces\Services\ShellServices\IServicePool.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
