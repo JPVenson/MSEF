@@ -34,6 +34,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="ReachFramework" />
+    <Reference Include="RibbonControlsLibrary, Version=4.0.0.11019, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -49,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Command\DelegateCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Ribbon\RibbonEx.cs" />
     <Compile Include="Services\ModuleServices\DefauldIncidentFixerService.cs" />
     <Compile Include="Services\ModuleServices\IncidentFixer\ErrorWindowIncidentFixer.cs" />
     <Compile Include="Services\ModuleServices\IncidentFixer\VisualMainModuleIncidentFixer.cs" />

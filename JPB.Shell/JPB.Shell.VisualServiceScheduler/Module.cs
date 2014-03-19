@@ -2,6 +2,9 @@
 // Erstellt von Jean-Pierre Bachmann am 18:38
 #endregion
 
+using JPB.Shell.Contracts.Attributes;
+using JPB.Shell.Contracts.Interfaces;
+using JPB.Shell.Contracts.Interfaces.Services.ModuleServices;
 using JPB.Shell.VisualServiceScheduler.ViewModel;
 
 namespace JPB.Shell.VisualServiceScheduler

@@ -3,6 +3,7 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using JPB.Shell.CommenAppliationContainer.Command;
 using JPB.Shell.Contracts.Interfaces.Metadata;
@@ -16,15 +17,14 @@ namespace JPB.Shell.CommenAppliationContainer.ViewModel
         public MainWindowViewModel()
         {
             InitModuleCommand = new DelegateCommand(InitModule, CanInitModule);
-
-            VisualServieMetadatas = VisualModuleManager.Instance.GetVisualServicesMetadata().ToList();
+            VisualServieMetadatas = new ObservableCollection<IVisualServiceMetadata>(VisualModuleManager.Instance.GetVisualServicesMetadata());
         }
 
         #region VisualServieMetadatas property
 
-        private List<IVisualServiceMetadata> _visualServieMetadatas = default(List<IVisualServiceMetadata>);
+        private ObservableCollection<IVisualServiceMetadata> _visualServieMetadatas = default(ObservableCollection<IVisualServiceMetadata>);
 
-        public List<IVisualServiceMetadata> VisualServieMetadatas
+        public ObservableCollection<IVisualServiceMetadata> VisualServieMetadatas
         {
             get { return _visualServieMetadatas; }
             set
