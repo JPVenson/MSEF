@@ -5,14 +5,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JPB.Shell.CommonAppliationContainer.Services.Shell.VisualModule;
 using JPB.Shell.Contracts.Attributes;
 using JPB.Shell.Contracts.Interfaces;
 using JPB.Shell.Contracts.Interfaces.Metadata;
 using JPB.Shell.Contracts.Interfaces.Services;
 using JPB.Shell.Contracts.Interfaces.Services.ApplicationServices;
-using JPB.Shell.MEF.Services;
 
-namespace JPB.Shell.CommenAppliationContainer.Services.ModuleServices
+namespace JPB.Shell.CommonAppliationContainer.Services.ModuleServices
 {
     [ServiceExport("DefauldIncidentFixerService", true,typeof(IIncidentFixerService))]
     public class DefauldIncidentFixerService : IIncidentFixerService
@@ -26,7 +26,7 @@ namespace JPB.Shell.CommenAppliationContainer.Services.ModuleServices
 
         public Lazy<IService, IServiceMetadata> OnIncident(IEnumerable<Lazy<IService, IServiceMetadata>> defauldInplementations)
         {
-            var typedFinder = ServicePool.Instance.GetServices<IIncidentFixerService>();
+            var typedFinder = VisualMainWindow.ApplicationProxy.ServicePool.GetServices<IIncidentFixerService>();
 
             var inplementations = defauldInplementations as Lazy<IService, IServiceMetadata>[] ?? defauldInplementations.ToArray();
             var responsiv = inplementations.Select(defauldInplementation => 

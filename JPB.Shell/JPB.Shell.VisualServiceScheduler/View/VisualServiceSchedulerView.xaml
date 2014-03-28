@@ -3,16 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:model1="clr-namespace:IEADPC.Shell.Log.Model;assembly=IEADPC.Shell"
              xmlns:model="clr-namespace:JPB.Shell.VisualServiceScheduler.Model"
-             xmlns:model11="clr-namespace:JPB.Shell.MEF.Log.Model;assembly=JPB.Shell.MEF"
+             xmlns:logging="clr-namespace:JPB.Shell.Contracts.Interfaces.Services.ShellServices.Logging;assembly=JPB.Shell.Contracts"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" >
 
 
     <UserControl.Resources>
 
-        <DataTemplate DataType="{x:Type model11:LogEntry}">
+        <DataTemplate DataType="{x:Type logging:ILogEntry}">
             <Border BorderBrush="Aqua" CornerRadius="2" BorderThickness="2" Margin="5">
                 <DockPanel>
                     <DockPanel DockPanel.Dock="Left">

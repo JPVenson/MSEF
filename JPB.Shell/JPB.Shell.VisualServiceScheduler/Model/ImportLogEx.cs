@@ -4,6 +4,8 @@
 
 using System.Collections.Generic;
 using System.ComponentModel;
+using JPB.Shell.Contracts.Interfaces.Services.ShellServices.Logging;
+using JPB.WPFBase.MVVM.ViewModel;
 
 namespace JPB.Shell.VisualServiceScheduler.Model
 {
@@ -11,7 +13,7 @@ namespace JPB.Shell.VisualServiceScheduler.Model
     {
         public ImportLogEx()
         {
-            ImportPool = ImportPool.Instance;
+            ImportPool = Module.Context.ImportPool;
         }
 
         #region SelectetLogMessages property
@@ -32,9 +34,9 @@ namespace JPB.Shell.VisualServiceScheduler.Model
 
         #region ImportLog property
 
-        private ImportPool _importPool = default(ImportPool);
+        private IImportPool _importPool = default(IImportPool);
 
-        public ImportPool ImportPool
+        public IImportPool ImportPool
         {
             get { return _importPool; }
             private set

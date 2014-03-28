@@ -3,14 +3,13 @@
 #endregion
 
 using System.Windows;
-using JPB.Shell.CommenAppliationContainer.View;
-using JPB.Shell.CommenAppliationContainer.ViewModel;
+using JPB.Shell.CommonAppliationContainer.View;
+using JPB.Shell.CommonAppliationContainer.ViewModel;
 using JPB.Shell.Contracts.Attributes;
 using JPB.Shell.Contracts.Interfaces;
 using JPB.Shell.Contracts.Interfaces.Services.ApplicationServices;
-using JPB.Shell.Contracts.Interfaces.Services.ModuleServices;
 
-namespace JPB.Shell.CommenAppliationContainer.Services.Shell.VisualModule
+namespace JPB.Shell.CommonAppliationContainer.Services.Shell.VisualModule
 {
     [VisualServiceExport("CommenVisualMainWindow", true, typeof(IApplicationContainer))]
     public class VisualMainWindow : IApplicationContainer
@@ -50,6 +49,14 @@ namespace JPB.Shell.CommenAppliationContainer.Services.Shell.VisualModule
 
         #endregion
 
-        public IApplicationContext ApplicationContextProxy { get; private set; }
+        public IApplicationContext ApplicationContextProxy
+        {
+            get { return ApplicationProxy; }
+            set
+            {
+                ApplicationProxy = value;
+            }
+        }
+        public static IApplicationContext ApplicationProxy { get; private set; }
     }
 }

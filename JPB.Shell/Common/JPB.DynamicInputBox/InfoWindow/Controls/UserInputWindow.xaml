@@ -1,0 +1,46 @@
+﻿<Window x:Class="JPB.DynamicInputBox.InfoWindow.Controls.UserInputWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        Topmost="True"
+        SizeToContent="Height"
+        WindowStyle="ToolWindow"
+        ResizeMode="NoResize"
+        mc:Ignorable="d"
+        Width="300"
+        MaxHeight="300"
+        Closing="UserInputWindow_OnClosing"
+        d:DesignHeight="150" d:DesignWidth="300">
+    <DockPanel LastChildFill="True">
+        <DockPanel Height="30" LastChildFill="False" DockPanel.Dock="Bottom">
+            <Button DockPanel.Dock="Left" Margin="5" VerticalAlignment="Center" Content="Abbruch"
+                    Command="{Binding AbortCommand}" />
+            <Button DockPanel.Dock="Right" Margin="5" VerticalAlignment="Center" Content="{Binding ContinueText}"
+                    Command="{Binding NextStepCommand}" />
+            <Button DockPanel.Dock="Right" Margin="5" VerticalAlignment="Center" Content="{Binding PreviousText}"
+                    Command="{Binding PreviousStepCommand}" />
+        </DockPanel>
+        <ContentControl DockPanel.Dock="Top" Content="{Binding SelectedStep, IsAsync=True}" />
+    </DockPanel>
+
+</Window>
+
+
+<!--<DataTrigger Binding="{Binding Index}" Value="-1" >
+    <Setter Property="Content">
+        <Setter.Value>
+            <TextBlock Text="Ende"/>
+        </Setter.Value>
+    </Setter>
+</DataTrigger>
+<DataTrigger>
+    <Setter Property="Content">
+        <Setter.Value>
+            <DockPanel>
+                <TextBlock Text="Weiter zu "/>
+                <TextBlock Text="{Binding Index}"/>
+            </DockPanel>
+        </Setter.Value>
+    </Setter>
+</DataTrigger>-->

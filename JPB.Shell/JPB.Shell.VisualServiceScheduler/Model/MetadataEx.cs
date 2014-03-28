@@ -4,6 +4,11 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
+using JPB.Shell.Contracts.Extentions;
+using JPB.Shell.Contracts.Interfaces.Metadata;
+using JPB.Shell.Contracts.Interfaces.Services;
+using JPB.WPFBase.MVVM.ViewModel;
 
 namespace JPB.Shell.VisualServiceScheduler.Model
 {
@@ -37,9 +42,9 @@ namespace JPB.Shell.VisualServiceScheduler.Model
             get { return Metadata.Descriptor; }
         }
 
-        public Type MetadataContract
+        public Type[] MetadataContract
         {
-            get { return Metadata.Contract; }
+            get { return Metadata.Contracts; }
         }
 
         public bool MetadataIsDefauldService
@@ -93,7 +98,7 @@ namespace JPB.Shell.VisualServiceScheduler.Model
         /// <param name="sender">The transferparameter</param>
         public void EnumerateServices(object sender)
         {
-            var enumerable = Shell.Services.ServicePool.Instance.GetServices<IService>(Metadata).Select(s => new ServiceEx(s));
+            var enumerable = Module.Context.ServicePool.GetServices<IService>(Metadata).Select(s => new ServiceEx(s));
             Services = new ObservableCollection<ServiceEx>(enumerable);
 
             //Services = new ObservableCollection<ServiceEx>(

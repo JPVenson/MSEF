@@ -6,7 +6,7 @@ using System;
 using System.ComponentModel;
 using System.Linq.Expressions;
 
-namespace JPB.Shell.CommenAppliationContainer.ViewModel
+namespace JPB.Shell.CommonAppliationContainer.ViewModel
 {
     [Serializable]
     public class ViewModelBase : INotifyPropertyChanged

@@ -1,6 +1,4 @@
-﻿using System.Windows;
-
-namespace JPB.Shell.CommenAppliationContainer.View
+﻿namespace JPB.Shell.CommonAppliationContainer.View
 {
     /// <summary>
     /// Interaction logic for MainWindowView.xaml

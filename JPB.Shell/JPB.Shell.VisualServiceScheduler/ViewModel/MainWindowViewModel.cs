@@ -5,7 +5,16 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition.Hosting;
+using System.Linq;
+using System.Windows;
+using JPB.Shell.Contracts.Attributes;
+using JPB.Shell.Contracts.Extentions;
+using JPB.Shell.Contracts.Interfaces;
+using JPB.Shell.Contracts.Interfaces.Metadata;
+using JPB.Shell.Contracts.Interfaces.Services;
 using JPB.Shell.VisualServiceScheduler.Model;
+using JPB.WPFBase.MVVM.DelegateCommand;
+using JPB.WPFBase.MVVM.ViewModel;
 
 namespace JPB.Shell.VisualServiceScheduler.ViewModel
 {
@@ -21,8 +30,14 @@ namespace JPB.Shell.VisualServiceScheduler.ViewModel
 
         private void Action(object sender, ExportsChangeEventArgs exportsChangeEventArgs)
         {
-            VisualServiceMetadatas = new ObservableCollection<MetadataEx>(Module.Context.ServicePool.GetMetadatas<IVisualServiceMetadata>().Select(s => new MetadataEx(s)));
-            ServiceMetadatas = new ObservableCollection<MetadataEx>(Module.Context.ServicePool.GetAllMetadata().Select(s => new MetadataEx(s)).Except(VisualServiceMetadatas));
+            VisualServiceMetadatas =
+                new ObservableCollection<MetadataEx>(
+                    Module.Context.ServicePool.GetMetadatas<IVisualServiceMetadata>().Select(s => new MetadataEx(s)));
+            ServiceMetadatas =
+                new ObservableCollection<MetadataEx>(
+                    Module.Context.ServicePool.GetAllMetadata()
+                        .Select(s => new MetadataEx(s))
+                        .Except(VisualServiceMetadatas));
         }
 
         #region VisualServiceMetadatas property
@@ -41,7 +56,6 @@ namespace JPB.Shell.VisualServiceScheduler.ViewModel
 
         #endregion
 
-
         #region ImportLogEx property
 
         private ImportLogEx _importLogEx = new ImportLogEx();
@@ -57,9 +71,6 @@ namespace JPB.Shell.VisualServiceScheduler.ViewModel
         }
 
         #endregion
-
-
-
 
         #region ShowAllServices property
 
@@ -89,7 +100,7 @@ namespace JPB.Shell.VisualServiceScheduler.ViewModel
         private void RemoveAssambly(object sender)
         {
             var serviceMetadata = SelectedMetadata.Metadata;
-            var serice = ServicePool.Instance.GetSingelService<IService>(serviceMetadata);
+            var serice = Module.Context.ServicePool.GetServices<IService>(serviceMetadata).FirstOrDefault();
 
             if (serice == null)
                 return;
@@ -97,7 +108,7 @@ namespace JPB.Shell.VisualServiceScheduler.ViewModel
             Action<IApplicationContext> lambdaFunc = serice.OnStart;
             Delegate del = lambdaFunc;
             var assam = del.Method.ReflectedType.Assembly;
-            ServicePool.Instance.FreeAssambly(assam);
+            Module.Context.ServicePool.FreeAssambly(assam);
         }
 
         /// <summary>
@@ -146,4 +157,5 @@ namespace JPB.Shell.VisualServiceScheduler.ViewModel
 
         #endregion
     }
+
 }

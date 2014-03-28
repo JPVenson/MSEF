@@ -11,7 +11,7 @@ using JPB.Shell.Contracts.Interfaces.Metadata;
 using JPB.Shell.Contracts.Interfaces.Services;
 using JPB.Shell.Contracts.Interfaces.Services.ApplicationServices;
 
-namespace JPB.Shell.CommenAppliationContainer.Services.ModuleServices.IncidentFixer
+namespace JPB.Shell.CommonAppliationContainer.Services.ModuleServices.IncidentFixer
 {
     [ServiceExport("ErrorWindowIncidentFixer", typeof(IIncidentFixerService))]
     public class ErrorWindowIncidentFixer : IIncidentFixerService

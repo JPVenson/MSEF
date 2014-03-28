@@ -2,29 +2,28 @@
 // Erstellt von Jean-Pierre Bachmann am 16:56
 #endregion
 
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using JPB.Shell.CommenAppliationContainer.Command;
+using JPB.Shell.CommonAppliationContainer.Command;
+using JPB.Shell.CommonAppliationContainer.Services.Shell.VisualModule;
+using JPB.Shell.CommonContracts.Interfaces.Metadata;
 using JPB.Shell.Contracts.Interfaces.Metadata;
 using JPB.Shell.Contracts.Interfaces.Services.ModuleServices;
-using JPB.Shell.MEF.Services;
 
-namespace JPB.Shell.CommenAppliationContainer.ViewModel
+namespace JPB.Shell.CommonAppliationContainer.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase
     {
         public MainWindowViewModel()
         {
             InitModuleCommand = new DelegateCommand(InitModule, CanInitModule);
-            VisualServieMetadatas = new ObservableCollection<IVisualServiceMetadata>(VisualModuleManager.Instance.GetVisualServicesMetadata());
+            VisualServieMetadatas = new ObservableCollection<IRibbonMetadata>(VisualMainWindow.ApplicationProxy.ServicePool.GetMetadatas<IRibbonMetadata>());
         }
 
         #region VisualServieMetadatas property
 
-        private ObservableCollection<IVisualServiceMetadata> _visualServieMetadatas = default(ObservableCollection<IVisualServiceMetadata>);
+        private ObservableCollection<IRibbonMetadata> _visualServieMetadatas = default(ObservableCollection<IRibbonMetadata>);
 
-        public ObservableCollection<IVisualServiceMetadata> VisualServieMetadatas
+        public ObservableCollection<IRibbonMetadata> VisualServieMetadatas
         {
             get { return _visualServieMetadatas; }
             set
@@ -54,7 +53,7 @@ namespace JPB.Shell.CommenAppliationContainer.ViewModel
 
         #region InitModule DelegateCommand
 
-        public DelegateCommand InitModuleCommand { get; private set; }
+        public static DelegateCommand InitModuleCommand { get; private set; }
 
         /// <summary>
         /// 
@@ -63,8 +62,14 @@ namespace JPB.Shell.CommenAppliationContainer.ViewModel
         private void InitModule(object sender)
         {
             var send = sender as IVisualServiceMetadata;
-            this.SelectedVisualIVisualModule = VisualModuleManager.Instance.CreateService<IVisualService>(send.Descriptor);
-            SelectedVisualIVisualModule.OnEnter();
+            var module = VisualMainWindow.ApplicationProxy.VisualModuleManager.CreateService<IVisualService>(send.Descriptor);
+
+            if (SelectedVisualIVisualModule != null && !SelectedVisualIVisualModule.OnLeave())
+                return;
+            if (module.OnEnter())
+            {
+                this.SelectedVisualIVisualModule = module;
+            }
         }
 
         /// <summary>

@@ -2,14 +2,14 @@
 // Erstellt von Jean-Pierre Bachmann am 18:38
 #endregion
 
-using JPB.Shell.Contracts.Attributes;
+using JPB.Shell.CommonContracts.Attributes;
 using JPB.Shell.Contracts.Interfaces;
 using JPB.Shell.Contracts.Interfaces.Services.ModuleServices;
 using JPB.Shell.VisualServiceScheduler.ViewModel;
 
 namespace JPB.Shell.VisualServiceScheduler
 {
-    [VisualServiceExport("Shell.VisualServiceScheduler", typeof(IVisualService))]
+    [RibbonMetadata("Shell.VisualServiceScheduler", 0, 0, "VisualServiceScheduler", typeof(IVisualService))]
     public class Module : IVisualService
     {
         public static IApplicationContext Context;

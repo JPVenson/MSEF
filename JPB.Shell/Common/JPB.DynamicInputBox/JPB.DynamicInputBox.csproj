@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{535181FB-8192-44CB-9859-4D5A2484B971}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JPB.DynamicInputBox</RootNamespace>
+    <AssemblyName>JPB.DynamicInputBox</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="InfoWindow\Controls\QuestionUserControl.xaml.cs">
+      <DependentUpon>QuestionUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InfoWindow\Controls\UserInputWindow.xaml.cs">
+      <DependentUpon>UserInputWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InfoWindow\EingabeModus.cs" />
+    <Compile Include="InfoWindow\IEnumerableManagerExtensions.cs" />
+    <Compile Include="InputWindow.cs" />
+    <Compile Include="InfoWindow\Interfaces\IDynamicInputDescriptor.cs" />
+    <Compile Include="InfoWindow\Interfaces\IInputDescriptor.cs" />
+    <Compile Include="InfoWindow\Interfaces\IMultiQuestionViewModel.cs" />
+    <Compile Include="InfoWindow\Interfaces\IQuestionViewModel.cs" />
+    <Compile Include="InfoWindow\IQuestionModelImp\QuestionAbstrViewModelBase.cs" />
+    <Compile Include="InfoWindow\IQuestionModelImp\QuestionActionViewModel.cs" />
+    <Compile Include="InfoWindow\IQuestionModelImp\QuestionMultiInputViewModel.cs" />
+    <Compile Include="InfoWindow\IQuestionModelImp\QuestionMultipleChoiceAbstrViewModel.cs" />
+    <Compile Include="InfoWindow\IQuestionModelImp\QuestionMutliOrSingelInputViewModel.cs" />
+    <Compile Include="InfoWindow\IQuestionModelImp\QuestionSimpleList.cs" />
+    <Compile Include="InfoWindow\IQuestionModelImp\QuestionSimpleViewModel.cs" />
+    <Compile Include="InfoWindow\IQuestionModelImp\QuestionViewModel.cs" />
+    <Compile Include="InfoWindow\UserInputViewModel.cs" />
+    <Compile Include="InfoWindow\Wrapper\IWaiterWrapper.cs" />
+    <Compile Include="InfoWindow\Wrapper\ListBoxItemWrapper.cs" />
+    <Compile Include="InfoWindow\Wrapper\WaiterWrapper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="InfoWindow\Controls\QuestionUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="InfoWindow\Controls\UserInputWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JPB.ErrorValidation\JPB.ErrorValidation.csproj">
+      <Project>{5FB1FACD-D060-4188-BB0D-B5D27B83F081}</Project>
+      <Name>JPB.ErrorValidation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JPB.WPFBase\JPB.WPFBase.csproj">
+      <Project>{4615BF6C-DB8E-4124-9D92-C8977ACE2898}</Project>
+      <Name>JPB.WPFBase</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

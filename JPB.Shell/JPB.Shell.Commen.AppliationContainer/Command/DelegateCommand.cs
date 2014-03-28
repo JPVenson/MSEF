@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace JPB.Shell.CommenAppliationContainer.Command
+namespace JPB.Shell.CommonAppliationContainer.Command
 {
     public class DelegateCommand : ICommand
     {

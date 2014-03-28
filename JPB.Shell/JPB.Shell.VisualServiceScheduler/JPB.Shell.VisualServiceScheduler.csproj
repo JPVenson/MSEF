@@ -36,13 +36,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -91,17 +86,17 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\JPB.WPFBase\JPB.WPFBase.csproj">
+      <Project>{4615BF6C-DB8E-4124-9D92-C8977ACE2898}</Project>
+      <Name>JPB.WPFBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JPB.Shell.CommonContracts\JPB.Shell.CommonContracts.csproj">
+      <Project>{2727CA10-32B6-4AD0-8996-A68884FDE3F9}</Project>
+      <Name>JPB.Shell.CommonContracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\JPB.Shell.Contracts\JPB.Shell.Contracts.csproj">
       <Project>{24A73ED5-9F97-45D7-9502-893FA9B1452A}</Project>
       <Name>JPB.Shell.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\JPB.Shell.MEF\JPB.Shell.MEF.csproj">
-      <Project>{35D30EC9-6F9D-448E-9A82-1EC790159213}</Project>
-      <Name>JPB.Shell.MEF</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\JPB.Shell\JPB.Shell.csproj">
-      <Project>{AF0A3EDB-4B05-48D7-911E-032E5199313C}</Project>
-      <Name>JPB.Shell</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

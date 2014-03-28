@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using JPB.Shell.Contracts.Interfaces.Services;
+using JPB.WPFBase.MVVM.ViewModel;
 
 namespace JPB.Shell.VisualServiceScheduler.Model
 {

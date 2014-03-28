@@ -19,6 +19,12 @@ namespace JPB.Shell.Contracts.Attributes
 
         }
 
+        public VisualServiceExportAttribute(string descriptor, string imageuri, params Type[] contract)
+            : this(descriptor, contract)
+        {
+            ImageUri = imageuri;
+        }
+
         public VisualServiceExportAttribute(string descriptor, bool isDefauld, params Type[] contract)
             : base(typeof(IService))
         {
@@ -26,12 +32,6 @@ namespace JPB.Shell.Contracts.Attributes
             IsDefauldService = isDefauld;
             Contracts = contract;
             Descriptor = descriptor;
-        }
-
-        public VisualServiceExportAttribute(string descriptor, string imageuri, params Type[] contract)
-            : this(descriptor, contract)
-        {
-            ImageUri = imageuri;
         }
 
         #region IVisualServiceMetadata Members

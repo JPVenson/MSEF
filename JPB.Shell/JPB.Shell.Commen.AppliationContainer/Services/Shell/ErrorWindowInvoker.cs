@@ -8,7 +8,7 @@ using JPB.Shell.Contracts.Attributes;
 using JPB.Shell.Contracts.Interfaces;
 using JPB.Shell.Contracts.Interfaces.Services.ApplicationServices;
 
-namespace JPB.Shell.CommenAppliationContainer.Services.Shell
+namespace JPB.Shell.CommonAppliationContainer.Services.Shell
 {
     [ServiceExport("ErrorWindow", true, typeof(IErrorWindowService))]
     public class ErrorWindowServiceInvoker : IErrorWindowService

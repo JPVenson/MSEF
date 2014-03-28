@@ -96,9 +96,6 @@
     <Reference Include="System.ComponentModel.Composition">
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.ComponentModel.DataAnnotations">
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Core">
       <Private>True</Private>
     </Reference>
@@ -106,7 +103,6 @@
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase">
       <Private>True</Private>
     </Reference>
