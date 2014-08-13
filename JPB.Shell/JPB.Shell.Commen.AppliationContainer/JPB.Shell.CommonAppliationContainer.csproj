@@ -65,10 +65,6 @@
     <Folder Include="Services\Worker\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\WPFCommon\trunk\JPB.WPFBase\JPB.WPFBase.csproj">
-      <Project>{5070CE1A-C5F1-4B6E-BDEA-C453224B8552}</Project>
-      <Name>JPB.WPFBase</Name>
-    </ProjectReference>
     <ProjectReference Include="..\JPB.Shell.CommonContracts\JPB.Shell.CommonContracts.csproj">
       <Project>{2727ca10-32b6-4ad0-8996-a68884fde3f9}</Project>
       <Name>JPB.Shell.CommonContracts</Name>
