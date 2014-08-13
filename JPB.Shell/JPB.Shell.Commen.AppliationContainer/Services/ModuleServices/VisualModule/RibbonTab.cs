@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using JPB.Shell.CommonContracts.Interfaces.Application;
 
-namespace JPB.Shell.VisualServiceScheduler.Services
+namespace JPB.Shell.CommonAppliationContainer.Services.ModuleServices.VisualModule
 {
     public class RibbonTab : IRibbonTab
     {
@@ -14,7 +14,7 @@ namespace JPB.Shell.VisualServiceScheduler.Services
 
         public RibbonTab(int tabIndex, string header, IRibbonGroup group)
         {
-            Groups = new ObservableCollection<IRibbonGroup>(new[] { group });
+            Groups = new ObservableCollection<IRibbonGroup>(new[] {group});
             TabIndex = tabIndex;
             Header = header;
         }

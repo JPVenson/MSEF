@@ -1,5 +1,7 @@
 ﻿#region Jean-Pierre Bachmann
+
 // Erstellt von Jean-Pierre Bachmann am 11:59
+
 #endregion
 
 using JPB.Shell.Contracts.Interfaces.Services;
@@ -7,14 +9,14 @@ using JPB.WPFBase.MVVM.ViewModel;
 
 namespace JPB.Shell.VisualServiceScheduler.Model
 {
-    public class ServiceEx : ViewModelBase
+    public class ServiceEx : AsyncViewModelBase
     {
+        private IService _service;
+
         public ServiceEx(IService service)
         {
-            this.Service = service;
+            Service = service;
         }
-
-        private IService _service;
 
         public IService Service
         {
@@ -47,15 +49,18 @@ namespace JPB.Shell.VisualServiceScheduler.Model
         #region ReflectService DelegateCommand
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="sender">The transferparameter</param>
         public void ReflectService(IService sender)
         {
-            TypeReflection = new TypeReflection(sender);
+            if (!IsWorking)
+                base.SimpleWork(() => new TypeReflection(sender),
+                s =>
+                {
+                    TypeReflection = s;
+                });
         }
 
         #endregion
-     
     }
 }

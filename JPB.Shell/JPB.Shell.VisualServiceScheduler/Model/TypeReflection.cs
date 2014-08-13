@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using JPB.Shell.Contracts.Interfaces.Services;
 using JPB.WPFBase.MVVM.ViewModel;
 
 namespace JPB.Shell.VisualServiceScheduler.Model
 {
-    public class TypeReflection : ViewModelBase
+    public class TypeReflection : AsyncViewModelBase
     {
         public TypeReflection(IService instance)
         {
@@ -83,9 +85,9 @@ namespace JPB.Shell.VisualServiceScheduler.Model
 
         #region Propertys property
 
-        private Dictionary<string, object> _propertys = default(Dictionary<string, object>);
+        private IDictionary<string, object> _propertys = default(IDictionary<string, object>);
 
-        public Dictionary<string, object> Propertys
+        public IDictionary<string, object> Propertys
         {
             get { return _propertys; }
             set
@@ -99,10 +101,10 @@ namespace JPB.Shell.VisualServiceScheduler.Model
 
         public static Dictionary<string, object> FieldsFromInstance(IService instance)
         {
-            var t = instance.GetType();
-            var props = t.GetFields();
+            Type t = instance.GetType();
+            FieldInfo[] props = t.GetFields();
             var dict = new Dictionary<string, object>();
-            foreach (var prp in props)
+            foreach (FieldInfo prp in props)
             {
                 object value = prp.GetValue(instance);
                 dict.Add(prp.Name, value);
@@ -112,32 +114,52 @@ namespace JPB.Shell.VisualServiceScheduler.Model
 
         public static EventInfo[] EventsFromInstance(IService instance)
         {
-            var t = instance.GetType();
+            Type t = instance.GetType();
             return t.GetEvents();
         }
 
         public static Type[] InterfacesFromInstance(IService instance)
         {
-            var t = instance.GetType();
+            Type t = instance.GetType();
             return t.GetInterfaces();
         }
 
         public static MethodInfo[] MethodsFromInstance(object instance)
         {
-            var t = instance.GetType();
+            Type t = instance.GetType();
             return t.GetMethods();
         }
 
-        public static Dictionary<string, object> PropertysFromType(object instance)
+        public IDictionary<string, object> PropertysFromType(object instance)
         {
-            var t = instance.GetType();
-            var props = t.GetProperties();
-            var dict = new Dictionary<string, object>();
-            foreach (PropertyInfo prp in props)
+            Type t = instance.GetType();
+            PropertyInfo[] props = t.GetProperties();
+            var dict = new ConcurrentDictionary<string, object>();
+            props.AsParallel().ForAll(s =>
             {
-                object value = prp.GetValue(instance, new object[] { });
-                dict.Add(prp.Name, value);
-            }
+                object value = null;
+                try
+                {
+                    value = s.GetValue(instance, new object[] { });
+                }
+                catch (InvalidOperationException)
+                {
+                    try
+                    {
+                        PropertyInfo prp1 = s;
+                        base.ThreadSaveAction(() =>
+                        {
+                            value = prp1.GetValue(instance, new object[] { });
+                        });
+                    }
+                    catch (Exception)
+                    {
+                        value = null;
+                    }
+                }
+                dict.TryAdd(s.Name, value);
+            });
+
             return dict;
         }
     }

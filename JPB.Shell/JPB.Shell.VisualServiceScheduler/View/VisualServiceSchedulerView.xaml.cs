@@ -3,7 +3,7 @@
 namespace JPB.Shell.VisualServiceScheduler.View
 {
     /// <summary>
-    /// Interaction logic for UserControl1.xaml
+    ///     Interaction logic for UserControl1.xaml
     /// </summary>
     public partial class VisualServiceScheduler : UserControl
     {

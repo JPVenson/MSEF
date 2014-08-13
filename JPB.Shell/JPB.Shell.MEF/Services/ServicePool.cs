@@ -20,6 +20,7 @@ using JPB.Shell.Contracts.Interfaces.Services;
 using JPB.Shell.Contracts.Interfaces.Services.ApplicationServices;
 using JPB.Shell.Contracts.Interfaces.Services.ModuleServices;
 using JPB.Shell.Contracts.Interfaces.Services.ShellServices;
+using JPB.Shell.MEF.Factorys;
 using JPB.Shell.MEF.Log;
 using JPB.Shell.MEF.Log.Model;
 using JPB.Shell.MEF.Model;
@@ -29,7 +30,7 @@ namespace JPB.Shell.MEF.Services
 {
     public class ServicePool : IServicePool
     {
-        private ServicePool(string priorityKey, string[] sublookuppaths)
+        internal ServicePool(string priorityKey, string[] sublookuppaths)
         {
             _strongNameCatalog = new StrongNameCatalog(sublookuppaths, true);
             _strongNameCatalog.PriorityKey = priorityKey;
@@ -37,45 +38,46 @@ namespace JPB.Shell.MEF.Services
             Container = new CompositionContainer(_strongNameCatalog);
         }
 
-        internal static ServicePool CreateParamServicePool(string priorityKey, params string[] subPaths)
-        {
-            var pool = new ServicePool(priorityKey, subPaths);
-            Instance = pool;
-            if (ApplicationContainer == null)
-                ApplicationContainer = new ApplicationContext(ImportPool.Instance, MessageBroker.Instance, pool, DataBroker.Instance, VisualModuleManager.Instance);
-            pool.InitLoading();
-            return pool;
-        }
+        //internal static ServicePool CreateParamServicePool(string priorityKey, params string[] subPaths)
+        //{
+        //    var pool = new ServicePool(priorityKey, subPaths);
+        //    Instance = pool;
+        //    if (ApplicationContainer == null)
+        //        ApplicationContainer = new ApplicationContext(ImportPool.Instance, MessageBroker.Instance, pool,
+        //            DataBroker.Instance, VisualModuleManager.Instance);
+        //    pool.InitLoading();
+        //    return pool;
+        //}
 
-        internal static ServicePool CreateParamServicePool(string priorityKey)
-        {
-            return CreateParamServicePool(priorityKey,
-                new[] {Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)});
-        }
+        //internal static ServicePool CreateParamServicePool(string priorityKey)
+        //{
+        //    return CreateParamServicePool(priorityKey,
+        //        new[] {Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)});
+        //}
 
-        internal static ServicePool CreateServicePool()
-        {
-            return CreateParamServicePool(string.Empty);
-        }
+        //internal static ServicePool CreateServicePool()
+        //{
+        //    return CreateParamServicePool(string.Empty);
+        //}
 
-        public static void PreLoadServicePool(string priorityKey)
-        {
-            Instance = CreateParamServicePool(priorityKey);
-        }
+        //public static void PreLoadServicePool(string priorityKey)
+        //{
+        //    Instance = CreateParamServicePool(priorityKey);
+        //}
 
-        public static void PreLoadServicePool(string priorityKey, params string[] sublookuppaths)
-        {
-            Instance = CreateParamServicePool(priorityKey, sublookuppaths);
-        }
+        //public static void PreLoadServicePool(string priorityKey, params string[] sublookuppaths)
+        //{
+        //    Instance = CreateParamServicePool(priorityKey, sublookuppaths);
+        //}
 
         /// <summary>
         ///     Used to get all <see cref="IApplicationProvider" /> in all exports to Provide a Initial Loading
         /// </summary>
-        private void InitLoading()
+        internal void InitLoading()
         {
             IEnumerable<Lazy<IService, IServiceMetadata>> serviceInternal = GetServiceInternal(false);
             List<Lazy<IService, IServiceMetadata>> enumerable =
-                serviceInternal.Where(s => s.Metadata.Contracts.Any(f => f == typeof(IApplicationProvider))).ToList();
+                serviceInternal.Where(s => s.Metadata.Contracts.Any(f => f == typeof (IApplicationProvider))).ToList();
             List<Lazy<IService, IServiceMetadata>> asyncservices =
                 enumerable.Where(s => !s.Metadata.ForceSynchronism).ToList();
 
@@ -83,7 +85,7 @@ namespace JPB.Shell.MEF.Services
             {
                 try
                 {
-                    var asyncservice1 = asyncservice;
+                    Lazy<IService, IServiceMetadata> asyncservice1 = asyncservice;
                     Task.Factory.StartNew(() => asyncservice1.Value.OnStart(ApplicationContainer));
                 }
                 catch (Exception ex)
@@ -91,7 +93,7 @@ namespace JPB.Shell.MEF.Services
                     ApplicationContainer.ImportPool.LogEntries.Add(
                         new LogEntry(
                             string.Format("Error on startup of module: {0}", asyncservice.Metadata.Descriptor),
-                            new Dictionary<string, object> { { "Exeption", ex } }));
+                            new Dictionary<string, object> {{"Exeption", ex}}));
                 }
             }
 
@@ -105,7 +107,7 @@ namespace JPB.Shell.MEF.Services
                 {
                     ApplicationContainer.ImportPool.LogEntries.Add(
                         new LogEntry(string.Format("Error on startup of module: {0}", val.Metadata.Descriptor),
-                                     new Dictionary<string, object> { { "Exeption", ex } }));
+                            new Dictionary<string, object> {{"Exeption", ex}}));
                 }
             }
         }
@@ -135,10 +137,10 @@ namespace JPB.Shell.MEF.Services
         /// <summary>
         ///     The Current <see cref="IServicePool" /> Instance
         /// </summary>
-        public static ServicePool Instance
+        public static IServicePool Instance
         {
-            get { return _instance ?? (_instance = CreateServicePool()); }
-            private set { _instance = value; }
+            get { return _instance ?? (_instance = ServicePoolFactory.CreatePool()); }
+            internal set { _instance = value; }
         }
 
         #endregion
@@ -187,7 +189,8 @@ namespace JPB.Shell.MEF.Services
         }
 
         /// <summary>
-        ///     Import object that are marked with the Export Attrebute into your <paramref name="part" /> where your class container Import Flags
+        ///     Import object that are marked with the Export Attrebute into your <paramref name="part" /> where your class
+        ///     container Import Flags
         ///     <a
         ///         href="http://msdn.microsoft.com/en-us/library/system.componentmodel.composition.importattribute%28v=vs.100%29.aspx">
         ///         ImportAttribute
@@ -235,7 +238,8 @@ namespace JPB.Shell.MEF.Services
 
         /// <summary>
         ///     Gets the Service where the <see cref="IServiceMetadata.IsDefauldService" /> property is true
-        ///     If more than one Service match this condition, this Function will call the <see cref="IIncidentFixerService" /> Service
+        ///     If more than one Service match this condition, this Function will call the <see cref="IIncidentFixerService" />
+        ///     Service
         /// </summary>
         /// <typeparam name="T">Your Service interface</typeparam>
         /// <returns>
@@ -248,7 +252,7 @@ namespace JPB.Shell.MEF.Services
         {
             IEnumerable<Lazy<IService, IServiceMetadata>> exports = GetServiceInternal(false);
             IEnumerable<Lazy<IService, IServiceMetadata>> defaultservice = exports
-                .Where(m => m.Metadata.IsDefauldService && m.Metadata.Contracts.Any(f => f == typeof(T)));
+                .Where(m => m.Metadata.IsDefauldService && m.Metadata.Contracts.Any(f => f == typeof (T)));
 
             Lazy<IService, IServiceMetadata>[] defauldInplementations =
                 defaultservice as Lazy<IService, IServiceMetadata>[] ?? defaultservice.ToArray();
@@ -263,7 +267,7 @@ namespace JPB.Shell.MEF.Services
             if (IsIncident || !defauldInplementations.Any())
                 ThrowNoInplementationFoundEx<T>();
 
-            Console.WriteLine("On Incident TargetType:" + typeof(T));
+            Console.WriteLine("On Incident TargetType:" + typeof (T));
 
             IsIncident = true;
 
@@ -277,7 +281,7 @@ namespace JPB.Shell.MEF.Services
                     ThrowNoInplementationFoundEx<T>();
 
                 IsIncident = false;
-                var value = (T)service.Value;
+                var value = (T) service.Value;
                 value.OnStart(ApplicationContainer);
                 return value;
             }
@@ -300,7 +304,7 @@ namespace JPB.Shell.MEF.Services
         {
             T firstOrDefault =
                 GetServiceInternal()
-                    .Where(m => m.Metadata.Contracts.Any(f => f == typeof(T)))
+                    .Where(m => m.Metadata.Contracts.Any(f => f == typeof (T)))
                     .Select(m => m.Value as T)
                     .FirstOrDefault();
             if (firstOrDefault != null)
@@ -341,7 +345,7 @@ namespace JPB.Shell.MEF.Services
         public IEnumerable<T> GetServices<T>() where T : class, IService
         {
             return GetServiceInternal()
-                .Where(m => m.Metadata.Contracts.Any(f => f == typeof(T)))
+                .Where(m => m.Metadata.Contracts.Any(f => f == typeof (T)))
                 .Select(s => s.Value as T);
         }
 
@@ -445,11 +449,11 @@ namespace JPB.Shell.MEF.Services
         private static void ThrowNoInplementationFoundEx<T>()
         {
             throw new NotImplementedException("There is no unique inmplementation of the Service with the type : \r\n" +
-                                              typeof(T) +
+                                              typeof (T) +
                                               "\r\nThe program can not Iditify one Module and tried to load the service but\r\n it allso does not found only one Defauld inplementation of the DefauldIncentFixerService.\r\n\r\n See Data")
-                {
-                    Data = { { "Type", typeof(T) } }
-                };
+            {
+                Data = {{"Type", typeof (T)}}
+            };
         }
 
         /// <summary>
@@ -471,7 +475,7 @@ namespace JPB.Shell.MEF.Services
 
         #region Member
 
-        private static ServicePool _instance;
+        private static IServicePool _instance;
 
         private readonly StrongNameCatalog _strongNameCatalog = default(StrongNameCatalog);
 

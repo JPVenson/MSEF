@@ -1,7 +1,7 @@
 ﻿namespace JPB.Shell.CommonAppliationContainer.View
 {
     /// <summary>
-    /// Interaction logic for MainWindowView.xaml
+    ///     Interaction logic for MainWindowView.xaml
     /// </summary>
     public partial class MainWindowView
     {

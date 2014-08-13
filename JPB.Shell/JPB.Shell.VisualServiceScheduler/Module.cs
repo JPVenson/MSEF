@@ -1,5 +1,7 @@
 ﻿#region Jean-Pierre Bachmann
+
 // Erstellt von Jean-Pierre Bachmann am 18:38
+
 #endregion
 
 using JPB.Shell.CommonContracts.Attributes;
@@ -9,7 +11,7 @@ using JPB.Shell.VisualServiceScheduler.ViewModel;
 
 namespace JPB.Shell.VisualServiceScheduler
 {
-    [RibbonMetadata("Shell.VisualServiceScheduler", 0, 0, "VisualServiceScheduler", typeof(IVisualService))]
+    [RibbonMetadata("Shell.VisualServiceScheduler", 0, 0, "VisualServiceScheduler", typeof (IVisualService))]
     public class Module : IVisualService
     {
         public static IApplicationContext Context;
@@ -18,7 +20,7 @@ namespace JPB.Shell.VisualServiceScheduler
 
         public object View
         {
-            get { return new View.VisualServiceScheduler() { DataContext = ViewModel }; }
+            get { return new View.VisualServiceScheduler {DataContext = ViewModel}; }
         }
 
         public object ViewModel

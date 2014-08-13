@@ -10,6 +10,7 @@ using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Windows;
 using JPB.Shell.Contracts.Interfaces.Services.ApplicationServices;
+using JPB.Shell.MEF.Factorys;
 using JPB.Shell.MEF.Services;
 
 namespace JPB.Shell
@@ -32,21 +33,14 @@ namespace JPB.Shell
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            try
-            {
-                ServicePool.PreLoadServicePool("JPB");
-                var defaultSingelService = ServicePool.Instance.GetDefaultSingelService<IApplicationContainer>();
+            ServicePoolFactory.CreatePool("JPB");
+            var defaultSingelService = ServicePool.Instance.GetDefaultSingelService<IApplicationContainer>();
 
-                if (defaultSingelService == null)
-                    throw new CompositionException("Could not load the Default IVisualMainWindow");
+            if (defaultSingelService == null)
+                throw new CompositionException("Could not load the Default IVisualMainWindow");
 
-                if (!defaultSingelService.OnEnter())
-                    Shutdown(1);
-            }
-            catch (LicenseException lex)
-            {
-                MessageBox.Show(lex.Message, "", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
+            if (!defaultSingelService.OnEnter())
+                Shutdown(1);
         }
 
         //[DebuggerStepThrough]

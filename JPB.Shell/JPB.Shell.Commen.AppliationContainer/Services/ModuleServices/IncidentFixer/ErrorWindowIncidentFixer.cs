@@ -1,5 +1,7 @@
 ﻿#region Jean-Pierre Bachmann
+
 // Erstellt von Jean-Pierre Bachmann am 17:37
+
 #endregion
 
 using System;
@@ -13,18 +15,18 @@ using JPB.Shell.Contracts.Interfaces.Services.ApplicationServices;
 
 namespace JPB.Shell.CommonAppliationContainer.Services.ModuleServices.IncidentFixer
 {
-    [ServiceExport("ErrorWindowIncidentFixer", typeof(IIncidentFixerService))]
+    [ServiceExport("ErrorWindowIncidentFixer", typeof (IIncidentFixerService))]
     public class ErrorWindowIncidentFixer : IIncidentFixerService
     {
-
         #region Implementation of IIncidentFixerService
 
         public bool IsResponsibleFor(Type targedType)
         {
-            return targedType == typeof(IErrorWindowService);
+            return targedType == typeof (IErrorWindowService);
         }
 
-        public Lazy<IService, IServiceMetadata> OnIncident(IEnumerable<Lazy<IService, IServiceMetadata>> defauldInplementations)
+        public Lazy<IService, IServiceMetadata> OnIncident(
+            IEnumerable<Lazy<IService, IServiceMetadata>> defauldInplementations)
         {
             return defauldInplementations.First();
         }

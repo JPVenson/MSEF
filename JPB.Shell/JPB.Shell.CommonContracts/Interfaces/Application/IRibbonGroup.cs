@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Windows.Controls;
 using Microsoft.Windows.Controls.Ribbon;
 
 namespace JPB.Shell.CommonContracts.Interfaces.Application

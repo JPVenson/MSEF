@@ -6,13 +6,13 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("IEADPC.Shell")]
+[assembly: AssemblyTitle("JPB.Shell")]
 [assembly: AssemblyDescription("The DPC internal Shell")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("IEA.DPC")]
-[assembly: AssemblyProduct("IEADPC.Shell")]
+[assembly: AssemblyCompany("JPB")]
+[assembly: AssemblyProduct("JPB.Shell")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
-[assembly: AssemblyTrademark("IEADPC.Shell")]
+[assembly: AssemblyTrademark("JPB.Shell")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

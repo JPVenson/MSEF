@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using JPB.Shell.Contracts.Interfaces.Services;
+﻿using JPB.Shell.Contracts.Interfaces.Services;
 
 namespace JPB.Foo.ClientCommenContracts.Service
 {

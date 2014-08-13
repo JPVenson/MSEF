@@ -1,5 +1,7 @@
 ﻿#region Jean-Pierre Bachmann
+
 // Erstellt von Jean-Pierre Bachmann am 16:56
+
 #endregion
 
 using System.Collections.ObjectModel;
@@ -8,6 +10,7 @@ using JPB.Shell.CommonAppliationContainer.Services.Shell.VisualModule;
 using JPB.Shell.CommonContracts.Interfaces.Metadata;
 using JPB.Shell.Contracts.Interfaces.Metadata;
 using JPB.Shell.Contracts.Interfaces.Services.ModuleServices;
+using JPB.WPFBase.MVVM.ViewModel;
 
 namespace JPB.Shell.CommonAppliationContainer.ViewModel
 {
@@ -16,12 +19,15 @@ namespace JPB.Shell.CommonAppliationContainer.ViewModel
         public MainWindowViewModel()
         {
             InitModuleCommand = new DelegateCommand(InitModule, CanInitModule);
-            VisualServieMetadatas = new ObservableCollection<IRibbonMetadata>(VisualMainWindow.ApplicationProxy.ServicePool.GetMetadatas<IRibbonMetadata>());
+            VisualServieMetadatas =
+                new ObservableCollection<IRibbonMetadata>(
+                    VisualMainWindow.ApplicationProxy.ServicePool.GetMetadatas<IRibbonMetadata>());
         }
 
         #region VisualServieMetadatas property
 
-        private ObservableCollection<IRibbonMetadata> _visualServieMetadatas = default(ObservableCollection<IRibbonMetadata>);
+        private ObservableCollection<IRibbonMetadata> _visualServieMetadatas =
+            default(ObservableCollection<IRibbonMetadata>);
 
         public ObservableCollection<IRibbonMetadata> VisualServieMetadatas
         {
@@ -56,24 +62,23 @@ namespace JPB.Shell.CommonAppliationContainer.ViewModel
         public static DelegateCommand InitModuleCommand { get; private set; }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="sender">The transferparameter</param>
         private void InitModule(object sender)
         {
             var send = sender as IVisualServiceMetadata;
-            var module = VisualMainWindow.ApplicationProxy.VisualModuleManager.CreateService<IVisualService>(send.Descriptor);
+            var module =
+                VisualMainWindow.ApplicationProxy.VisualModuleManager.CreateService<IVisualService>(send.Descriptor);
 
             if (SelectedVisualIVisualModule != null && !SelectedVisualIVisualModule.OnLeave())
                 return;
             if (module.OnEnter())
             {
-                this.SelectedVisualIVisualModule = module;
+                SelectedVisualIVisualModule = module;
             }
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="sender">The transferparameter</param>
         /// <returns>True if you can use it otherwise false</returns>

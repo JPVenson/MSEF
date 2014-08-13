@@ -1,5 +1,7 @@
 ﻿#region Jean-Pierre Bachmann
+
 // Erstellt von Jean-Pierre Bachmann am 16:47
+
 #endregion
 
 using System.Windows;
@@ -11,14 +13,9 @@ using JPB.Shell.Contracts.Interfaces.Services.ApplicationServices;
 
 namespace JPB.Shell.CommonAppliationContainer.Services.Shell.VisualModule
 {
-    [VisualServiceExport("CommenVisualMainWindow", true, typeof(IApplicationContainer))]
+    [VisualServiceExport("CommenVisualMainWindow", true, typeof (IApplicationContainer))]
     public class VisualMainWindow : IApplicationContainer
     {
-        public VisualMainWindow()
-        {
-
-        }
-
         #region Implementation of IVisualModule
 
         public object View { get; private set; }
@@ -28,7 +25,7 @@ namespace JPB.Shell.CommonAppliationContainer.Services.Shell.VisualModule
         public bool OnEnter()
         {
             ViewModel = new MainWindowViewModel();
-            View = new MainWindowView() { DataContext = ViewModel };
+            View = new MainWindowView {DataContext = ViewModel};
             (View as Window).Show();
             return true;
         }
@@ -49,14 +46,12 @@ namespace JPB.Shell.CommonAppliationContainer.Services.Shell.VisualModule
 
         #endregion
 
+        public static IApplicationContext ApplicationProxy { get; private set; }
+
         public IApplicationContext ApplicationContextProxy
         {
             get { return ApplicationProxy; }
-            set
-            {
-                ApplicationProxy = value;
-            }
+            set { ApplicationProxy = value; }
         }
-        public static IApplicationContext ApplicationProxy { get; private set; }
     }
 }

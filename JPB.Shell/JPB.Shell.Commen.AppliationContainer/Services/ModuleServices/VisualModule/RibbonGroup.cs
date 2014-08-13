@@ -2,7 +2,7 @@
 using JPB.Shell.CommonContracts.Interfaces.Application;
 using Microsoft.Windows.Controls.Ribbon;
 
-namespace JPB.Shell.VisualServiceScheduler.Services
+namespace JPB.Shell.CommonAppliationContainer.Services.ModuleServices.VisualModule
 {
     public class RibbonGroup : IRibbonGroup
     {
@@ -16,7 +16,7 @@ namespace JPB.Shell.VisualServiceScheduler.Services
         public RibbonGroup(int groupIndex, string header, RibbonButton buttons)
         {
             Header = header;
-            Buttons = new ObservableCollection<RibbonButton>(new[] { buttons });
+            Buttons = new ObservableCollection<RibbonButton>(new[] {buttons});
             GroupIndex = groupIndex;
         }
 

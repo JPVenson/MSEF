@@ -35,7 +35,8 @@ namespace JPB.Shell.MEF.Model
         ///         Use this Ctor to get all dll's that export anything in the spezific paths
         ///     </para>
         ///     <para>
-        ///         Use the <paramref name="trustedKeys" /> params to search for the Public Keys. Only Assambly with one of that keys will included
+        ///         Use the <paramref name="trustedKeys" /> params to search for the Public Keys. Only Assambly with one of that
+        ///         keys will included
         ///         Set <code>#DEFINE SECLOADING</code> to Compile this function
         ///     </para>
         /// </summary>
@@ -69,17 +70,17 @@ namespace JPB.Shell.MEF.Model
                 if (_watchDirectorys)
                     _watchers.Add(CreateWatcher(internalpath));
 
-                var files = Directory.GetFiles(internalpath, "*.dll");
+                string[] files = Directory.GetFiles(internalpath, "*.dll");
 
                 if (WithCheckForDuplicates)
                 {
-                    var duplicates = files
+                    IEnumerable<IGrouping<string, string>> duplicates = files
                         .GroupBy(i => i)
                         .Where(g => g.Count() > 1);
 
                     foreach (var group in duplicates)
                     {
-                        var currass = Assembly.LoadFrom(@group.First());
+                        Assembly currass = Assembly.LoadFrom(@group.First());
                         var exep = new List<string>();
 
                         foreach (string assamblys in @group)
@@ -94,14 +95,14 @@ namespace JPB.Shell.MEF.Model
                     }
                 }
 
-                var parallelLoopResult = Parallel.ForEach(files, CheckAndAddAssambly);
+                ParallelLoopResult parallelLoopResult = Parallel.ForEach(files, CheckAndAddAssambly);
 
                 if (!parallelLoopResult.IsCompleted)
                     throw new ArgumentException("The Strong name Catalog is Broken in his Constructor");
 
                 var thread = new Thread(() =>
                 {
-                    foreach (var lowpriorityassambly in LowPriorityList)
+                    foreach (string lowpriorityassambly in LowPriorityList)
                         CheckAndAddAssambly(lowpriorityassambly, () => { });
                 });
                 thread.SetApartmentState(ApartmentState.MTA);
@@ -112,11 +113,13 @@ namespace JPB.Shell.MEF.Model
             }
         }
 
-        private void CheckAndAddAssambly([NotNull]string filename, ParallelLoopState state)
+        private void CheckAndAddAssambly([NotNull] string filename, ParallelLoopState state)
         {
-            var fileName = Path.GetFileName(filename);
+            string fileName = Path.GetFileName(filename);
 
-            if (fileName != null && (!string.IsNullOrEmpty(PriorityKey) && !Regex.IsMatch(fileName, PriorityKey, RegexOptions.CultureInvariant)))
+            if (fileName != null &&
+                (!string.IsNullOrEmpty(PriorityKey) &&
+                 !Regex.IsMatch(fileName, PriorityKey, RegexOptions.CultureInvariant)))
             {
                 LowPriorityList.Enqueue(fileName);
                 return;
@@ -200,8 +203,8 @@ namespace JPB.Shell.MEF.Model
                 if (Changing != null)
                 {
                     Changing.Invoke(this,
-                                    new ComposablePartCatalogChangeEventArgs(assam.Parts,
-                                                                             new List<ComposablePartDefinition>(), null));
+                        new ComposablePartCatalogChangeEventArgs(assam.Parts,
+                            new List<ComposablePartDefinition>(), null));
                 }
 
                 _aggregateCatalog.Catalogs.Add(assam);
@@ -210,14 +213,13 @@ namespace JPB.Shell.MEF.Model
                 if (Changed != null)
                 {
                     Changed.Invoke(this,
-                                   new ComposablePartCatalogChangeEventArgs(assam.Parts,
-                                                                            new List<ComposablePartDefinition>(), null));
+                        new ComposablePartCatalogChangeEventArgs(assam.Parts,
+                            new List<ComposablePartDefinition>(), null));
                 }
             }
             catch (Exception e)
             {
                 IsHandeld(e, filename);
-                return;
             }
         }
 
@@ -267,8 +269,8 @@ namespace JPB.Shell.MEF.Model
                 if (Changing != null)
                 {
                     Changing.Invoke(this,
-                                    new ComposablePartCatalogChangeEventArgs(new List<ComposablePartDefinition>(), parts,
-                                                                             null));
+                        new ComposablePartCatalogChangeEventArgs(new List<ComposablePartDefinition>(), parts,
+                            null));
                 }
 
                 _aggregateCatalog.Catalogs.Remove(first);
@@ -278,8 +280,8 @@ namespace JPB.Shell.MEF.Model
                 if (Changed != null)
                 {
                     Changed.Invoke(this,
-                                   new ComposablePartCatalogChangeEventArgs(new List<ComposablePartDefinition>(), parts,
-                                                                            null));
+                        new ComposablePartCatalogChangeEventArgs(new List<ComposablePartDefinition>(), parts,
+                            null));
                 }
             }
         }
@@ -287,11 +289,11 @@ namespace JPB.Shell.MEF.Model
         private FileSystemWatcher CreateWatcher(string path)
         {
             var watcher = new FileSystemWatcher(path)
-                {
-                    IncludeSubdirectories = false,
-                    EnableRaisingEvents = true,
-                    NotifyFilter = NotifyFilters.FileName
-                };
+            {
+                IncludeSubdirectories = false,
+                EnableRaisingEvents = true,
+                NotifyFilter = NotifyFilters.FileName
+            };
             watcher.Created += OnChanged;
             return watcher;
         }

@@ -1,5 +1,7 @@
 ﻿#region Jean-Pierre Bachmann
+
 // Erstellt von Jean-Pierre Bachmann am 15:56
+
 #endregion
 
 using System;
@@ -14,7 +16,7 @@ using JPB.Shell.Contracts.Interfaces.Services.ApplicationServices;
 
 namespace JPB.Shell.CommonAppliationContainer.Services.ModuleServices
 {
-    [ServiceExport("DefauldIncidentFixerService", true,typeof(IIncidentFixerService))]
+    [ServiceExport("DefauldIncidentFixerService", true, typeof (IIncidentFixerService))]
     public class DefauldIncidentFixerService : IIncidentFixerService
     {
         #region Implementation of IService
@@ -24,15 +26,18 @@ namespace JPB.Shell.CommonAppliationContainer.Services.ModuleServices
             return false;
         }
 
-        public Lazy<IService, IServiceMetadata> OnIncident(IEnumerable<Lazy<IService, IServiceMetadata>> defauldInplementations)
+        public Lazy<IService, IServiceMetadata> OnIncident(
+            IEnumerable<Lazy<IService, IServiceMetadata>> defauldInplementations)
         {
-            var typedFinder = VisualMainWindow.ApplicationProxy.ServicePool.GetServices<IIncidentFixerService>();
+            IEnumerable<IIncidentFixerService> typedFinder =
+                VisualMainWindow.ApplicationProxy.ServicePool.GetServices<IIncidentFixerService>();
 
-            var inplementations = defauldInplementations as Lazy<IService, IServiceMetadata>[] ?? defauldInplementations.ToArray();
-            var responsiv = inplementations.Select(defauldInplementation => 
-                typedFinder.FirstOrDefault(incidentFixerService => 
+            Lazy<IService, IServiceMetadata>[] inplementations =
+                defauldInplementations as Lazy<IService, IServiceMetadata>[] ?? defauldInplementations.ToArray();
+            IIncidentFixerService responsiv = inplementations.Select(defauldInplementation =>
+                typedFinder.FirstOrDefault(incidentFixerService =>
                     defauldInplementation.Metadata.Contracts.Any(incidentFixerService.IsResponsibleFor)))
-                    .FirstOrDefault(firstOrDefault => firstOrDefault != null);
+                .FirstOrDefault(firstOrDefault => firstOrDefault != null);
 
             //var responsiv =
             //    typedFinder.FirstOrDefault(incidentFixerService => incidentFixerService.IsResponsibleFor());

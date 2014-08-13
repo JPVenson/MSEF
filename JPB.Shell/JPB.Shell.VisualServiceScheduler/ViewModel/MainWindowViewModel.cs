@@ -1,13 +1,14 @@
 ﻿#region Jean-Pierre Bachmann
+
 // Erstellt von Jean-Pierre Bachmann am 18:38
+
 #endregion
 
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition.Hosting;
 using System.Linq;
-using System.Windows;
-using JPB.Shell.Contracts.Attributes;
+using System.Reflection;
 using JPB.Shell.Contracts.Extentions;
 using JPB.Shell.Contracts.Interfaces;
 using JPB.Shell.Contracts.Interfaces.Metadata;
@@ -94,25 +95,23 @@ namespace JPB.Shell.VisualServiceScheduler.ViewModel
         public DelegateCommand RemoveAssamblyCommand { get; private set; }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="sender">The transferparameter</param>
         private void RemoveAssambly(object sender)
         {
-            var serviceMetadata = SelectedMetadata.Metadata;
-            var serice = Module.Context.ServicePool.GetServices<IService>(serviceMetadata).FirstOrDefault();
+            IServiceMetadata serviceMetadata = SelectedMetadata.Metadata;
+            IService serice = Module.Context.ServicePool.GetServices<IService>(serviceMetadata).FirstOrDefault();
 
             if (serice == null)
                 return;
 
             Action<IApplicationContext> lambdaFunc = serice.OnStart;
             Delegate del = lambdaFunc;
-            var assam = del.Method.ReflectedType.Assembly;
+            Assembly assam = del.Method.ReflectedType.Assembly;
             Module.Context.ServicePool.FreeAssambly(assam);
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="sender">The transferparameter</param>
         /// <returns>True if you can use it otherwise false</returns>
@@ -157,5 +156,4 @@ namespace JPB.Shell.VisualServiceScheduler.ViewModel
 
         #endregion
     }
-
 }

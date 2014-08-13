@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Controls;
 using JPB.Shell.CommonAppliationContainer.ViewModel;
 using JPB.Shell.CommonContracts.Interfaces.Application;
 using JPB.Shell.CommonContracts.Interfaces.Metadata;
@@ -9,18 +8,13 @@ using JPB.Shell.Contracts.Attributes;
 using JPB.Shell.Contracts.Interfaces;
 using Microsoft.Windows.Controls.Ribbon;
 
-namespace JPB.Shell.VisualServiceScheduler.Services
+namespace JPB.Shell.CommonAppliationContainer.Services.ModuleServices.VisualModule
 {
-    [ServiceExport("Export", typeof(IRibbonContentProviderService))]
+    [ServiceExport("Export", typeof (IRibbonContentProviderService))]
     public class RibbonContentProviderService : IRibbonContentProviderService
     {
-        public RibbonContentProviderService()
-        {
-        }
-
         public void OnStart(IApplicationContext application)
         {
-
         }
 
         public ObservableCollection<IRibbonTab> GenerateTabs(ObservableCollection<IRibbonMetadata> metadatas)
@@ -31,7 +25,7 @@ namespace JPB.Shell.VisualServiceScheduler.Services
                 new ObservableCollection<RibbonButton>(
                     metadatas.Select(
                         s =>
-                            new RibbonButton()
+                            new RibbonButton
                             {
                                 Command = MainWindowViewModel.InitModuleCommand,
                                 CommandParameter = s,

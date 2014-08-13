@@ -16,23 +16,21 @@ namespace JPB.Shell.Contracts.Attributes
         public ServiceExportAttribute(string descriptor, params Type[] contract)
             : this(descriptor, false, contract)
         {
-
         }
 
         public ServiceExportAttribute(string descriptor, bool isDefauld, params Type[] contract)
             : this(descriptor, isDefauld, false, contract)
         {
-
         }
 
         public ServiceExportAttribute(string descriptor, bool isDefauld, bool forceSynchronism, params Type[] contract)
             : this(descriptor, isDefauld, forceSynchronism, int.MaxValue, contract)
         {
-
         }
 
-        public ServiceExportAttribute(string descriptor, bool isDefauld, bool forceSynchronism, int priority, params Type[] contract)
-            : base(typeof(IService))
+        public ServiceExportAttribute(string descriptor, bool isDefauld, bool forceSynchronism, int priority,
+            params Type[] contract)
+            : base(typeof (IService))
         {
             Priority = priority;
             IsDefauldService = false;

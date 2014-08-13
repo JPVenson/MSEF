@@ -10,8 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>JPB.Shell.CommonAppliationContainer</RootNamespace>
     <AssemblyName>JPB.Shell.CommonAppliationContainer</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
@@ -54,7 +57,6 @@
     <Compile Include="Services\Shell\ErrorWindowInvoker.cs" />
     <Compile Include="Services\Shell\VisualModule\VisualMainWindow.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
-    <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\MainWindowView.xaml.cs">
       <DependentUpon>MainWindowView.xaml</DependentUpon>
     </Compile>
@@ -63,6 +65,10 @@
     <Folder Include="Services\Worker\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\WPFCommon\trunk\JPB.WPFBase\JPB.WPFBase.csproj">
+      <Project>{5070CE1A-C5F1-4B6E-BDEA-C453224B8552}</Project>
+      <Name>JPB.WPFBase</Name>
+    </ProjectReference>
     <ProjectReference Include="..\JPB.Shell.CommonContracts\JPB.Shell.CommonContracts.csproj">
       <Project>{2727ca10-32b6-4ad0-8996-a68884fde3f9}</Project>
       <Name>JPB.Shell.CommonContracts</Name>

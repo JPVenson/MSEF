@@ -43,16 +43,16 @@ namespace JPB.Shell.Contracts.Extentions
         #region TryGetServices
 
         public static bool TryGetServices<T>(this IServicePool source, [Out] [Required] IEnumerable<T> output,
-                                             string descriptor) where T : class, IService
+            string descriptor) where T : class, IService
         {
             output = default(IEnumerable<T>);
             try
             {
                 output = source.GetServiceInternal()
-                               .Where(
-                                   m =>
-                                   m.Metadata.Contracts.Any(f => f == typeof (T)) && m.Metadata.Descriptor == descriptor)
-                               .Select(m => m.Value as T);
+                    .Where(
+                        m =>
+                            m.Metadata.Contracts.Any(f => f == typeof (T)) && m.Metadata.Descriptor == descriptor)
+                    .Select(m => m.Value as T);
                 return true;
             }
             catch (Exception)
@@ -62,14 +62,14 @@ namespace JPB.Shell.Contracts.Extentions
         }
 
         public static bool TryGetServices<T>(this IServicePool source, [Out] [Required] IEnumerable<T> output,
-                                             IServiceMetadata metadata) where T : class, IService
+            IServiceMetadata metadata) where T : class, IService
         {
             output = default(IEnumerable<T>);
             try
             {
                 output = source.GetServiceInternal()
-                               .Where(m => m.Metadata == metadata)
-                               .Select(m => m.Value as T);
+                    .Where(m => m.Metadata == metadata)
+                    .Select(m => m.Value as T);
                 return true;
             }
             catch (Exception)
@@ -86,20 +86,20 @@ namespace JPB.Shell.Contracts.Extentions
             where T : class, IService
         {
             return source.GetServiceInternal()
-                         .Where(
-                             m => m.Metadata.Contracts.Any(f => f == typeof (T)) && m.Metadata.Descriptor == descriptor)
-                         .Select(s => s.Value as T);
+                .Where(
+                    m => m.Metadata.Contracts.Any(f => f == typeof (T)) && m.Metadata.Descriptor == descriptor)
+                .Select(s => s.Value as T);
         }
 
         public static IEnumerable<T> GetServices<T>(this IServicePool source, [Required] IServiceMetadata metadata)
             where T : class, IService
         {
             return source.GetServiceInternal()
-                         .Where(m => m.Metadata.Contracts == metadata.Contracts
-                                     && m.Metadata.Descriptor == metadata.Descriptor
-                                     && m.Metadata.IsDefauldService == metadata.IsDefauldService
-                                     && m.Metadata.ToString() == metadata.ToString())
-                         .Select(s => s.Value as T);
+                .Where(m => m.Metadata.Contracts == metadata.Contracts
+                            && m.Metadata.Descriptor == metadata.Descriptor
+                            && m.Metadata.IsDefauldService == metadata.IsDefauldService
+                            && m.Metadata.ToString() == metadata.ToString())
+                .Select(s => s.Value as T);
         }
 
         #endregion
@@ -110,26 +110,26 @@ namespace JPB.Shell.Contracts.Extentions
             where T : class, IService
         {
             return source.GetServiceInternal()
-                         .Where(
-                             m =>
-                             m.Metadata.Contracts == metadata.Contracts && m.Metadata.Descriptor == metadata.Descriptor &&
-                             m.Metadata.ToString() == metadata.ToString())
-                         .Select(m => m.Value as T).FirstOrDefault();
+                .Where(
+                    m =>
+                        m.Metadata.Contracts == metadata.Contracts && m.Metadata.Descriptor == metadata.Descriptor &&
+                        m.Metadata.ToString() == metadata.ToString())
+                .Select(m => m.Value as T).FirstOrDefault();
         }
 
         public static T GetSingelService<T>(this IServicePool source, string descriptor) where T : class, IService
         {
             return source.GetServiceInternal()
-                         .Where(
-                             m => m.Metadata.Contracts.Any(f => f == typeof (T)) && m.Metadata.Descriptor == descriptor)
-                         .Select(m => m.Value as T).FirstOrDefault();
+                .Where(
+                    m => m.Metadata.Contracts.Any(f => f == typeof (T)) && m.Metadata.Descriptor == descriptor)
+                .Select(m => m.Value as T).FirstOrDefault();
         }
 
         private static T GetSingelDefauldService<T>(this IServicePool source) where T : class, IService
         {
             return source.GetServiceInternal(false)
-                         .Where(m => m.Metadata.Contracts.Any(f => f == typeof (T)))
-                         .Select(m => m.Value as T).FirstOrDefault();
+                .Where(m => m.Metadata.Contracts.Any(f => f == typeof (T)))
+                .Select(m => m.Value as T).FirstOrDefault();
         }
 
         #endregion
@@ -137,14 +137,14 @@ namespace JPB.Shell.Contracts.Extentions
         #region TryGetSingelService
 
         public static bool TryGetSingelService<T>(this IServicePool source, [Out] [Required] T output,
-                                                  IServiceMetadata metadata) where T : class
+            IServiceMetadata metadata) where T : class
         {
             output = default(T);
             try
             {
                 output = source.GetServiceInternal()
-                               .Where(m => m.Metadata == metadata)
-                               .Select(m => m.Value as T).FirstOrDefault();
+                    .Where(m => m.Metadata == metadata)
+                    .Select(m => m.Value as T).FirstOrDefault();
                 return true;
             }
             catch (Exception)
@@ -163,10 +163,10 @@ namespace JPB.Shell.Contracts.Extentions
             try
             {
                 output = source.GetServiceInternal()
-                               .Where(
-                                   m =>
-                                   m.Metadata.Contracts.Any(f => f == typeof (T)) && m.Metadata.Descriptor == descriptor)
-                               .Select(m => m.Value as T).FirstOrDefault();
+                    .Where(
+                        m =>
+                            m.Metadata.Contracts.Any(f => f == typeof (T)) && m.Metadata.Descriptor == descriptor)
+                    .Select(m => m.Value as T).FirstOrDefault();
                 return true;
             }
             catch (Exception)

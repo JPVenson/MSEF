@@ -85,7 +85,8 @@ namespace JPB.Shell.MEF.Services
 
         /// <summary>
         ///     Gets the Service where the <see cref="IServiceMetadata.IsDefauldService" /> property is true
-        ///     If more than one Service match this condition, this Function will call the <see cref="IIncidentFixerService" /> Service
+        ///     If more than one Service match this condition, this Function will call the <see cref="IIncidentFixerService" />
+        ///     Service
         /// </summary>
         /// <typeparam name="T">
         ///     Your <see cref="IVisualService" />

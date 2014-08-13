@@ -181,7 +181,7 @@ namespace JPB.Shell.MEF.Services
         public void SaveGeneric(string filename)
         {
             var ts = new TypeStore();
-            foreach (var settingsBrokerInstance in SettingsBrokerInstances)
+            foreach (SettingsBrokerInstance settingsBrokerInstance in SettingsBrokerInstances)
                 ts.Typen.Add(settingsBrokerInstance.Value.GetType());
 
             using (var fs = new FileStream(filename + ".typestore", FileMode.Create))

@@ -74,44 +74,44 @@ namespace JPB.Shell.MEF.Log
         public static void AddSuccessMessage(Assembly assembly, string descriptor)
         {
             Instance.LogEntries.Add(new LogEntry(assembly.FullName,
-                                                 new Dictionary<string, object>
-                                                     {
-                                                         {"Success", true},
-                                                         {"Descriptor", descriptor}
-                                                     }));
+                new Dictionary<string, object>
+                {
+                    {"Success", true},
+                    {"Descriptor", descriptor}
+                }));
             Instance.SendPropertyChanged("LogEntries");
         }
 
         public static void AddSuccessExcludedMessage(Assembly assembly)
         {
             Instance.LogEntries.Add(new LogEntry(assembly.FullName,
-                                                 new Dictionary<string, object>
-                                                     {
-                                                         {"Success", true},
-                                                         {"Descriptor", GetSuccessExcludedMessage(assembly)}
-                                                     }));
+                new Dictionary<string, object>
+                {
+                    {"Success", true},
+                    {"Descriptor", GetSuccessExcludedMessage(assembly)}
+                }));
             Instance.SendPropertyChanged("LogEntries");
         }
 
         public static void AddSuccessIncludedMessage(Assembly assembly)
         {
             Instance.LogEntries.Add(new LogEntry(assembly.FullName,
-                                                 new Dictionary<string, object>
-                                                     {
-                                                         {"Success", true},
-                                                         {"Descriptor", GetSuccessIncludedMessage(assembly)}
-                                                     }));
+                new Dictionary<string, object>
+                {
+                    {"Success", true},
+                    {"Descriptor", GetSuccessIncludedMessage(assembly)}
+                }));
             Instance.SendPropertyChanged("LogEntries");
         }
 
         public static void AddNotAnImportMessage(Assembly assembly)
         {
             Instance.LogEntries.Add(new LogEntry(assembly.FullName,
-                                                 new Dictionary<string, object>
-                                                     {
-                                                         {"Fail", false},
-                                                         {"Descriptor", GetNotAnImportMessage(assembly)}
-                                                     }));
+                new Dictionary<string, object>
+                {
+                    {"Fail", false},
+                    {"Descriptor", GetNotAnImportMessage(assembly)}
+                }));
             Instance.SendPropertyChanged("LogEntries");
         }
 
@@ -119,11 +119,11 @@ namespace JPB.Shell.MEF.Log
         public static void AddImportFailMessage(Assembly assembly)
         {
             Instance.LogEntries.Add(new LogEntry(assembly.FullName,
-                                                 new Dictionary<string, object>
-                                                     {
-                                                         {"Success", false},
-                                                         {"Descriptor", GetImportFailMessage(assembly)}
-                                                     }));
+                new Dictionary<string, object>
+                {
+                    {"Success", false},
+                    {"Descriptor", GetImportFailMessage(assembly)}
+                }));
             Instance.SendPropertyChanged("LogEntries");
         }
 
@@ -131,24 +131,24 @@ namespace JPB.Shell.MEF.Log
         public static void AddFailMessage(Assembly assembly, Exception exception)
         {
             Instance.LogEntries.Add(new LogEntry(assembly.FullName,
-                                                 new Dictionary<string, object>
-                                                     {
-                                                         {"Success", false},
-                                                         {"Exception", exception},
-                                                         {"Descriptor", GetFailMessage(exception, assembly)}
-                                                     }));
+                new Dictionary<string, object>
+                {
+                    {"Success", false},
+                    {"Exception", exception},
+                    {"Descriptor", GetFailMessage(exception, assembly)}
+                }));
             Instance.SendPropertyChanged("LogEntries");
         }
 
         public static void AddFailMessage(string assemblyname, Exception exception)
         {
             Instance.LogEntries.Add(new LogEntry(assemblyname,
-                                                 new Dictionary<string, object>
-                                                     {
-                                                         {"Success", false},
-                                                         {"Exception", exception},
-                                                         {"Descriptor", GetFailMessage(exception, assemblyname)}
-                                                     }));
+                new Dictionary<string, object>
+                {
+                    {"Success", false},
+                    {"Exception", exception},
+                    {"Descriptor", GetFailMessage(exception, assemblyname)}
+                }));
             Instance.SendPropertyChanged("LogEntries");
         }
 
@@ -156,11 +156,11 @@ namespace JPB.Shell.MEF.Log
         public static void AddSuccessIncludedMessage(string filename)
         {
             Instance.LogEntries.Add(new LogEntry(filename,
-                                                 new Dictionary<string, object>
-                                                     {
-                                                         {"Success", true},
-                                                         {"Descriptor", GetSuccessIncludedMessage(filename)}
-                                                     }));
+                new Dictionary<string, object>
+                {
+                    {"Success", true},
+                    {"Descriptor", GetSuccessIncludedMessage(filename)}
+                }));
             Instance.SendPropertyChanged("LogEntries");
         }
 

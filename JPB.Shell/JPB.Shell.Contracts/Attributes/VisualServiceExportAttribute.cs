@@ -16,7 +16,6 @@ namespace JPB.Shell.Contracts.Attributes
         public VisualServiceExportAttribute(string descriptor, params Type[] contract)
             : this(descriptor, false, contract)
         {
-
         }
 
         public VisualServiceExportAttribute(string descriptor, string imageuri, params Type[] contract)
@@ -26,7 +25,7 @@ namespace JPB.Shell.Contracts.Attributes
         }
 
         public VisualServiceExportAttribute(string descriptor, bool isDefauld, params Type[] contract)
-            : base(typeof(IService))
+            : base(typeof (IService))
         {
             IsDefauldService = false;
             IsDefauldService = isDefauld;

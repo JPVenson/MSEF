@@ -1,8 +1,11 @@
 ﻿#region Jean-Pierre Bachmann
+
 // Erstellt von Jean-Pierre Bachmann am 12:00
+
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using JPB.Shell.Contracts.Extentions;
@@ -35,6 +38,7 @@ namespace JPB.Shell.VisualServiceScheduler.Model
                 SendPropertyChanged(() => MetadataIsDefauldService);
             }
         }
+
         #region Adapter propertys
 
         public string MetadataDescriptor
@@ -55,7 +59,7 @@ namespace JPB.Shell.VisualServiceScheduler.Model
         #endregion
 
         #endregion
-        
+
         #region SelectedService property
 
         private ServiceEx _selectedService = default(ServiceEx);
@@ -93,12 +97,12 @@ namespace JPB.Shell.VisualServiceScheduler.Model
         #region EnumerateServices DelegateCommand
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="sender">The transferparameter</param>
         public void EnumerateServices(object sender)
         {
-            var enumerable = Module.Context.ServicePool.GetServices<IService>(Metadata).Select(s => new ServiceEx(s));
+            IEnumerable<ServiceEx> enumerable =
+                Module.Context.ServicePool.GetServices<IService>(Metadata).Select(s => new ServiceEx(s));
             Services = new ObservableCollection<ServiceEx>(enumerable);
 
             //Services = new ObservableCollection<ServiceEx>(

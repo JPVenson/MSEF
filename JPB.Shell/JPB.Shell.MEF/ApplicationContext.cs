@@ -14,7 +14,7 @@ namespace JPB.Shell.MEF
     public class ApplicationContext : IApplicationContext
     {
         public ApplicationContext(IImportPool importPool, IMessageBroker messageBroker, IServicePool servicePool,
-                                  IDataBroker dataBroker, IVisualModuleManager visualModuleManager)
+            IDataBroker dataBroker, IVisualModuleManager visualModuleManager)
         {
             VisualModuleManager = visualModuleManager;
             DataBroker = dataBroker;
