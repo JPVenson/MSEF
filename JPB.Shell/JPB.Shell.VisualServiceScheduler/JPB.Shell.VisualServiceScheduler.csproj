@@ -37,6 +37,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JPB.WPFBase">
+      <HintPath>..\3th party\JPB.WPFBase.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Xml" />
@@ -89,10 +92,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\WPFCommon\trunk\JPB.WPFBase\JPB.WPFBase.csproj">
-      <Project>{5070ce1a-c5f1-4b6e-bdea-c453224b8552}</Project>
-      <Name>JPB.WPFBase</Name>
-    </ProjectReference>
     <ProjectReference Include="..\JPB.Shell.CommonContracts\JPB.Shell.CommonContracts.csproj">
       <Project>{2727CA10-32B6-4AD0-8996-A68884FDE3F9}</Project>
       <Name>JPB.Shell.CommonContracts</Name>

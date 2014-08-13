@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -21,7 +20,6 @@ using JPB.Shell.Contracts.Interfaces.Services.ApplicationServices;
 using JPB.Shell.Contracts.Interfaces.Services.ModuleServices;
 using JPB.Shell.Contracts.Interfaces.Services.ShellServices;
 using JPB.Shell.MEF.Factorys;
-using JPB.Shell.MEF.Log;
 using JPB.Shell.MEF.Log.Model;
 using JPB.Shell.MEF.Model;
 using JPB.Shell.MEF.Properties;
@@ -139,7 +137,7 @@ namespace JPB.Shell.MEF.Services
         /// </summary>
         public static IServicePool Instance
         {
-            get { return _instance ?? (_instance = ServicePoolFactory.CreatePool()); }
+            get { return _instance ?? (_instance = ServicePoolFactory.CreatePool(string.Empty)); }
             internal set { _instance = value; }
         }
 

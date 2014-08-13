@@ -14,7 +14,7 @@ using JPB.WPFBase.MVVM.ViewModel;
 
 namespace JPB.Shell.CommonAppliationContainer.ViewModel
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase 
     {
         public MainWindowViewModel()
         {
