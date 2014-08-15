@@ -17,7 +17,7 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>\\s-cl-gen01\x.Staff\jean.bachmann\Printer Tool\</PublishUrl>
+    <PublishUrl>/PublishUrl>
     <Install>true</Install>
     <InstallFrom>Unc</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -29,8 +29,8 @@
     <MapFileExtensions>true</MapFileExtensions>
     <TargetCulture>de-DE</TargetCulture>
     <ProductName>National Tools</ProductName>
-    <PublisherName>IEA-DPC</PublisherName>
-    <SuiteName>Printer Tool</SuiteName>
+    <PublisherName>Jean-Pierre Bachmann</PublisherName>
+    <SuiteName>-</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <ApplicationRevision>4</ApplicationRevision>
