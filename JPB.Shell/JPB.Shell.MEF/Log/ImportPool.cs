@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
+using JPB.Shell.Contracts.Interfaces.Services;
 using JPB.Shell.Contracts.Interfaces.Services.ShellServices.Logging;
 using JPB.Shell.MEF.Log.Model;
 using JPB.Shell.MEF.Properties;
@@ -31,6 +32,21 @@ namespace JPB.Shell.MEF.Log
         #region IImportPool Members
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public event Action<IService> ServiceLoad;
+        public event Action<IService> ServiceInitLoad;
+
+        internal virtual void OnServiceInitLoad(IService obj)
+        {
+            var handler = ServiceInitLoad;
+            if (handler != null) handler(obj);
+        }
+
+        internal virtual void OnServiceLoad(IService obj)
+        {
+            var handler = ServiceLoad;
+            if (handler != null) 
+                handler(obj);
+        }
 
         #endregion
 

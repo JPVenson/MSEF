@@ -12,10 +12,10 @@ namespace JPB.Shell.Contracts.Interfaces
 {
     public interface IApplicationContext
     {
-        IDataBroker DataBroker { get; }
-        IServicePool ServicePool { get; }
-        IMessageBroker MessageBroker { get; }
-        IImportPool ImportPool { get; }
-        IVisualModuleManager VisualModuleManager { get; }
+        IDataBroker DataBroker { get; set; }
+        IServicePool ServicePool { get; set; }
+        IMessageBroker MessageBroker { get; set; }
+        IImportPool ImportPool { get; set; }
+        IVisualModuleManager VisualModuleManager { get; set; }
     }
 }

@@ -76,8 +76,9 @@ namespace JPB.Shell.MEF.Services
         internal void InitLoading()
         {
             IEnumerable<Lazy<IService, IServiceMetadata>> serviceInternal = GetServiceInternal(false);
+
             List<Lazy<IService, IServiceMetadata>> enumerable =
-                serviceInternal.Where(s => s.Metadata.Contracts.Any(f => f == typeof (IApplicationProvider))).ToList();
+                serviceInternal.Where(s => s.Metadata.Contracts.Any(f => f == typeof(IApplicationProvider))).ToList();
             List<Lazy<IService, IServiceMetadata>> asyncservices =
                 enumerable.Where(s => !s.Metadata.ForceSynchronism).ToList();
 
@@ -85,15 +86,15 @@ namespace JPB.Shell.MEF.Services
             {
                 try
                 {
-                    Lazy<IService, IServiceMetadata> asyncservice1 = asyncservice;
-                    Task.Factory.StartNew(() => asyncservice1.Value.OnStart(ApplicationContainer));
+                    var asyncservice1 = asyncservice;
+                    Task.Factory.StartNew(() => GetCreatedValue<IService>(asyncservice1));
                 }
                 catch (Exception ex)
                 {
                     ApplicationContainer.ImportPool.LogEntries.Add(
                         new LogEntry(
                             string.Format("Error on startup of module: {0}", asyncservice.Metadata.Descriptor),
-                            new Dictionary<string, object> {{"Exeption", ex}}));
+                            new Dictionary<string, object> { { "Exeption", ex } }));
                 }
             }
 
@@ -101,13 +102,13 @@ namespace JPB.Shell.MEF.Services
             {
                 try
                 {
-                    val.Value.OnStart(ApplicationContainer);
+                    GetCreatedValue<IService>(val);
                 }
                 catch (Exception ex)
                 {
                     ApplicationContainer.ImportPool.LogEntries.Add(
                         new LogEntry(string.Format("Error on startup of module: {0}", val.Metadata.Descriptor),
-                            new Dictionary<string, object> {{"Exeption", ex}}));
+                            new Dictionary<string, object> { { "Exeption", ex } }));
                 }
             }
         }
@@ -250,24 +251,21 @@ namespace JPB.Shell.MEF.Services
         /// </exception>
         public T GetDefaultSingelService<T>() where T : class, IService
         {
-            IEnumerable<Lazy<IService, IServiceMetadata>> exports = GetServiceInternal(false);
-            IEnumerable<Lazy<IService, IServiceMetadata>> defaultservice = exports
-                .Where(m => m.Metadata.IsDefauldService && m.Metadata.Contracts.Any(f => f == typeof (T)));
+            var exports = GetServiceInternal(false);
+            var defaultservice = exports.Where(m => m.Metadata.IsDefauldService && m.Metadata.Contracts.Any(f => f == typeof(T)));
 
-            Lazy<IService, IServiceMetadata>[] defauldInplementations =
-                defaultservice as Lazy<IService, IServiceMetadata>[] ?? defaultservice.ToArray();
+            var defauldInplementations = defaultservice as Lazy<IService, IServiceMetadata>[] ?? defaultservice.ToArray();
 
             if (defauldInplementations.Count() == 1)
             {
-                var value = defauldInplementations.First().Value as T;
-                value.OnStart(ApplicationContainer);
-                return value;
+                var service = defauldInplementations.First();
+                return GetCreatedValue<T>(service);
             }
 
             if (IsIncident || !defauldInplementations.Any())
                 ThrowNoInplementationFoundEx<T>();
 
-            Console.WriteLine("On Incident TargetType:" + typeof (T));
+            Console.WriteLine("On Incident TargetType:" + typeof(T));
 
             IsIncident = true;
 
@@ -281,9 +279,8 @@ namespace JPB.Shell.MEF.Services
                     ThrowNoInplementationFoundEx<T>();
 
                 IsIncident = false;
-                var value = (T) service.Value;
-                value.OnStart(ApplicationContainer);
-                return value;
+
+                return GetCreatedValue<T>(service);
             }
 
             IsIncident = false;
@@ -302,14 +299,8 @@ namespace JPB.Shell.MEF.Services
         /// </returns>
         public T GetSingelService<T>() where T : class, IService
         {
-            T firstOrDefault =
-                GetServiceInternal()
-                    .Where(m => m.Metadata.Contracts.Any(f => f == typeof (T)))
-                    .Select(m => m.Value as T)
-                    .FirstOrDefault();
-            if (firstOrDefault != null)
-                firstOrDefault.OnStart(ApplicationContainer);
-            return firstOrDefault;
+            var firstOrDefault = GetServiceInternal().FirstOrDefault(m => m.Metadata.Contracts.Any(f => f == typeof(T)));
+            return GetCreatedValue<T>(firstOrDefault);
         }
 
         /// <summary>
@@ -336,6 +327,19 @@ namespace JPB.Shell.MEF.Services
             }
         }
 
+        private T GetCreatedValue<T>(Lazy<IService, IServiceMetadata> source) where T : class, IService
+        {
+            if (source == null)
+                return null;
+
+            if (!source.IsValueCreated)
+            {
+                ImportPool.Instance.OnServiceInitLoad(source.Value);
+                source.Value.OnStart(ApplicationContainer);
+            }
+            return (T)source.Value;
+        }
+
         /// <summary>
         ///     Get all Services that match <typeparamref name="T" />
         ///     Ignores all <see cref="IServiceMetadata.IsDefauldService" />
@@ -345,8 +349,8 @@ namespace JPB.Shell.MEF.Services
         public IEnumerable<T> GetServices<T>() where T : class, IService
         {
             return GetServiceInternal()
-                .Where(m => m.Metadata.Contracts.Any(f => f == typeof (T)))
-                .Select(s => s.Value as T);
+                .Where(m => m.Metadata.Contracts.Any(f => f == typeof(T)))
+                .Select(s => GetCreatedValue<T>(s));
         }
 
         /// <summary>
@@ -445,14 +449,15 @@ namespace JPB.Shell.MEF.Services
         // This Code is private and should not be used directly from your code
         /// <summary>
         /// </summary>
+        /// <exception cref="NotImplementedException"></exception>
         /// <typeparam name="T"></typeparam>
         private static void ThrowNoInplementationFoundEx<T>()
         {
             throw new NotImplementedException("There is no unique inmplementation of the Service with the type : \r\n" +
-                                              typeof (T) +
+                                              typeof(T) +
                                               "\r\nThe program can not Iditify one Module and tried to load the service but\r\n it allso does not found only one Defauld inplementation of the DefauldIncentFixerService.\r\n\r\n See Data")
             {
-                Data = {{"Type", typeof (T)}}
+                Data = { { "Type", typeof(T) } }
             };
         }
 

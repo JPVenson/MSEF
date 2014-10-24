@@ -52,7 +52,7 @@
   <ItemGroup>
     <Compile Include="ApplicationContext.cs" />
     <Compile Include="Factorys\ServicePoolFactory.cs" />
-    <Compile Include="Log\ImportLog.cs" />
+    <Compile Include="Log\ImportPool.cs" />
     <Compile Include="Log\Model\LogEntry.cs" />
     <Compile Include="Model\StrongNameCatalog.cs" />
     <Compile Include="Properties\Annotations.cs" />
