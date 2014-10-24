@@ -23,7 +23,7 @@ namespace JPB.Shell.MEF.Factorys
             var pool = new ServicePool(priorityKey, sublookuppaths);
             ServicePool.Instance = pool;
             if (ServicePool.ApplicationContainer == null)
-                ServicePool.ApplicationContainer = new ApplicationContext(ImportPool.Instance, MessageBroker.Instance, pool, DataBroker.Instance, VisualModuleManager.Instance);
+                ServicePool.ApplicationContainer = new ApplicationContext(ImportPool.Instance, MessageBroker.Instance, pool, null, VisualModuleManager.Instance);
             pool.InitLoading();
             return pool;
         }
