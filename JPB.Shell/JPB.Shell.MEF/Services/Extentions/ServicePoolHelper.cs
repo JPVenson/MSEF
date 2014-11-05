@@ -106,30 +106,35 @@ namespace JPB.Shell.MEF.Services.Extentions
 
         #region GetSingelService
 
+        public static T GetFirstOrDefault<T>(this IServicePool source, Func<Lazy<IService, IServiceMetadata>, bool> selector) where T:class, IService
+        {
+            var firstOrDefault = source.GetServiceInternal().FirstOrDefault(selector);
+
+            if (firstOrDefault != null)
+                return firstOrDefault.Value as T;
+
+            return null;
+        }
+
         public static T GetSingelService<T>(this IServicePool source, [Required] IServiceMetadata metadata)
             where T : class, IService
         {
-            return source.GetServiceInternal()
-                         .Where(
-                             m =>
-                             m.Metadata.Contracts == metadata.Contracts && m.Metadata.Descriptor == metadata.Descriptor &&
-                             m.Metadata.ToString() == metadata.ToString())
-                         .Select(m => m.Value as T).FirstOrDefault();
+            return source.GetFirstOrDefault<T>(
+                    m =>
+                        m.Metadata.Contracts == metadata.Contracts && m.Metadata.Descriptor == metadata.Descriptor &&
+                        m.Metadata.ToString() == metadata.ToString());
         }
 
         public static T GetSingelService<T>(this IServicePool source, string descriptor) where T : class, IService
         {
-            return source.GetServiceInternal()
-                         .Where(
-                             m => m.Metadata.Contracts.Any(f => f == typeof (T)) && m.Metadata.Descriptor == descriptor)
-                         .Select(m => m.Value as T).FirstOrDefault();
+            return
+                source.GetFirstOrDefault<T>(
+                    m => m.Metadata.Contracts.Any(f => f == typeof (T)) && m.Metadata.Descriptor == descriptor);
         }
 
         private static T GetSingelDefauldService<T>(this IServicePool source) where T : class, IService
         {
-            return source.GetServiceInternal(false)
-                         .Where(m => m.Metadata.Contracts.Any(f => f == typeof (T)))
-                         .Select(m => m.Value as T).FirstOrDefault();
+            return source.GetFirstOrDefault<T>(m => m.Metadata.Contracts.Any(f => f == typeof (T)));
         }
 
         #endregion

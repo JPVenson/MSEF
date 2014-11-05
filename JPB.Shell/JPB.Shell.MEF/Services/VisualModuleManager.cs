@@ -64,8 +64,6 @@ namespace JPB.Shell.MEF.Services
         public T CreateService<T>(string descriptor) where T : class, IVisualService
         {
             var service = ServicePool.Instance.GetSingelService<T>(descriptor);
-            if (service != null)
-                service.OnStart(ServicePool.ApplicationContainer);
             return service;
         }
 
@@ -78,8 +76,6 @@ namespace JPB.Shell.MEF.Services
         public T CreateService<T>(IVisualServiceMetadata serviceMetadata) where T : class, IVisualService
         {
             var service = ServicePool.Instance.GetSingelService<T>(serviceMetadata);
-            if (service != null)
-                service.OnStart(ServicePool.ApplicationContainer);
             return service;
         }
 

@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Runtime.Remoting.Channels;
 using System.Threading.Tasks;
 using JPB.Shell.Contracts.Interfaces;
 using JPB.Shell.Contracts.Interfaces.Metadata;
@@ -87,7 +88,7 @@ namespace JPB.Shell.MEF.Services
                 try
                 {
                     var asyncservice1 = asyncservice;
-                    Task.Factory.StartNew(() => GetCreatedValue<IService>(asyncservice1));
+                    Task.Factory.StartNew(() => asyncservice1.Value);
                 }
                 catch (Exception ex)
                 {
@@ -102,7 +103,7 @@ namespace JPB.Shell.MEF.Services
             {
                 try
                 {
-                    GetCreatedValue<IService>(val);
+                    var service = val.Value;
                 }
                 catch (Exception ex)
                 {
@@ -259,7 +260,8 @@ namespace JPB.Shell.MEF.Services
             if (defauldInplementations.Count() == 1)
             {
                 var service = defauldInplementations.First();
-                return GetCreatedValue<T>(service);
+                if (service != null)
+                    return service.Value as T;
             }
 
             if (IsIncident || !defauldInplementations.Any())
@@ -280,7 +282,8 @@ namespace JPB.Shell.MEF.Services
 
                 IsIncident = false;
 
-                return GetCreatedValue<T>(service);
+                if (service != null)
+                    return service.Value as T;
             }
 
             IsIncident = false;
@@ -299,8 +302,11 @@ namespace JPB.Shell.MEF.Services
         /// </returns>
         public T GetSingelService<T>() where T : class, IService
         {
-            var firstOrDefault = GetServiceInternal().FirstOrDefault(m => m.Metadata.Contracts.Any(f => f == typeof(T)));
-            return GetCreatedValue<T>(firstOrDefault);
+            var serv = GetServiceInternal().FirstOrDefault(m => m.Metadata.Contracts.Any(f => f == typeof(T)));
+            if (serv == null)
+                return null;
+            return serv.Value as T;
+
         }
 
         /// <summary>
@@ -334,7 +340,8 @@ namespace JPB.Shell.MEF.Services
 
             if (!source.IsValueCreated)
             {
-                ImportPool.Instance.OnServiceInitLoad(source.Value);
+                var service = source.Value;
+                ImportPool.Instance.OnServiceInitLoad(service);
                 source.Value.OnStart(ApplicationContainer);
             }
             return (T)source.Value;
@@ -425,6 +432,8 @@ namespace JPB.Shell.MEF.Services
             return GetServiceInternal(false).Select(s => s.Metadata);
         }
 
+        private IEnumerable<Lazy<IService, IServiceMetadata>> _exportRef;
+
         /// <summary>
         ///     The General method to get Services without any kind of Filterin
         ///     This Code is Internal and should not be used directly from your code
@@ -435,15 +444,22 @@ namespace JPB.Shell.MEF.Services
         /// <returns>All found Services that match the Condition</returns>
         public IEnumerable<Lazy<IService, IServiceMetadata>> GetServiceInternal(bool ignoreDefauld = true)
         {
-            if (!ignoreDefauld)
+            if (_exportRef == null)
+
+                _exportRef =
+                    Container.GetExports<IService, IServiceMetadata>().Select(s => new Lazy<IService, IServiceMetadata>(
+                        () =>
+                        {
+                            var createdValue = this.GetCreatedValue<IService>(s);
+                            return createdValue;
+                        }, s.Metadata));
+
+            if (ignoreDefauld)
             {
-                return Container
-                    .GetExports<IService, IServiceMetadata>();
+                return _exportRef.Where(s => !s.Metadata.IsDefauldService);
             }
 
-            return Container
-                .GetExports<IService, IServiceMetadata>()
-                .Where(s => !s.Metadata.IsDefauldService);
+            return _exportRef;
         }
 
         // This Code is private and should not be used directly from your code
