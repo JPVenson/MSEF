@@ -37,6 +37,9 @@ namespace JPB.Shell.MEF.Services
             _strongNameCatalog.PriorityKey = priorityKey;
             _strongNameCatalog.AsyncInit();
             Container = new CompositionContainer(_strongNameCatalog);
+            ImportPool.Instance.ServiceLoad += Instance_ServiceLoad;
+
+            _callbacks = new List<Action<IService>>();
         }
 
         //internal static ServicePool CreateParamServicePool(string priorityKey, params string[] subPaths)
@@ -70,6 +73,21 @@ namespace JPB.Shell.MEF.Services
         //{
         //    Instance = CreateParamServicePool(priorityKey, sublookuppaths);
         //}
+
+        private List<Action<IService>> _callbacks;
+
+        public void RegisterCallbackForServiceInit(Action<IService> serivce)
+        {
+            _callbacks.Add(serivce);
+        }
+
+        void Instance_ServiceLoad(IService obj)
+        {
+            foreach (var callback in _callbacks.Where(callback => callback.GetMethodInfo().GetGenericArguments().Contains(obj.GetType())))
+            {
+                callback(obj);
+            }
+        }
 
         /// <summary>
         ///     Used to get all <see cref="IApplicationProvider" /> in all exports to Provide a Initial Loading
@@ -445,7 +463,6 @@ namespace JPB.Shell.MEF.Services
         public IEnumerable<Lazy<IService, IServiceMetadata>> GetServiceInternal(bool ignoreDefauld = true)
         {
             if (_exportRef == null)
-
                 _exportRef =
                     Container.GetExports<IService, IServiceMetadata>().Select(s => new Lazy<IService, IServiceMetadata>(
                         () =>

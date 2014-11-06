@@ -32,6 +32,7 @@ namespace JPB.Shell.MEF.Log
         #region IImportPool Members
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         public event Action<IService> ServiceLoad;
         public event Action<IService> ServiceInitLoad;
 
