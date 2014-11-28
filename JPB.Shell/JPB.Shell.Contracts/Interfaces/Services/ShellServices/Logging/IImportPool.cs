@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace JPB.Shell.Contracts.Interfaces.Services.ShellServices.Logging
@@ -8,7 +9,7 @@ namespace JPB.Shell.Contracts.Interfaces.Services.ShellServices.Logging
 
     public interface IImportPool
     {
-        List<ILogEntry> LogEntries { get; set; }
+        ObservableCollection<ILogEntry> LogEntries { get; set; }
 
         /// <summary>
         ///     Raised when a property on this object has a new value

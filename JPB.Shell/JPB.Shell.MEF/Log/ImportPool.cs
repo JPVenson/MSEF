@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Reflection;
 using JPB.Shell.Contracts.Interfaces.Services;
@@ -21,6 +22,7 @@ namespace JPB.Shell.MEF.Log
 
         private ImportPool()
         {
+            LogEntries = new ObservableCollection<ILogEntry>();
         }
 
         public static ImportPool Instance
@@ -96,7 +98,6 @@ namespace JPB.Shell.MEF.Log
                     {"Success", true},
                     {"Descriptor", descriptor}
                 }));
-            Instance.SendPropertyChanged("LogEntries");
         }
 
         public static void AddSuccessExcludedMessage(Assembly assembly)
@@ -107,7 +108,6 @@ namespace JPB.Shell.MEF.Log
                     {"Success", true},
                     {"Descriptor", GetSuccessExcludedMessage(assembly)}
                 }));
-            Instance.SendPropertyChanged("LogEntries");
         }
 
         public static void AddSuccessIncludedMessage(Assembly assembly)
@@ -118,7 +118,6 @@ namespace JPB.Shell.MEF.Log
                     {"Success", true},
                     {"Descriptor", GetSuccessIncludedMessage(assembly)}
                 }));
-            Instance.SendPropertyChanged("LogEntries");
         }
 
         public static void AddNotAnImportMessage(Assembly assembly)
@@ -129,7 +128,6 @@ namespace JPB.Shell.MEF.Log
                     {"Fail", false},
                     {"Descriptor", GetNotAnImportMessage(assembly)}
                 }));
-            Instance.SendPropertyChanged("LogEntries");
         }
 
 
@@ -141,7 +139,6 @@ namespace JPB.Shell.MEF.Log
                     {"Success", false},
                     {"Descriptor", GetImportFailMessage(assembly)}
                 }));
-            Instance.SendPropertyChanged("LogEntries");
         }
 
 
@@ -154,7 +151,6 @@ namespace JPB.Shell.MEF.Log
                     {"Exception", exception},
                     {"Descriptor", GetFailMessage(exception, assembly)}
                 }));
-            Instance.SendPropertyChanged("LogEntries");
         }
 
         public static void AddFailMessage(string assemblyname, Exception exception)
@@ -166,7 +162,6 @@ namespace JPB.Shell.MEF.Log
                     {"Exception", exception},
                     {"Descriptor", GetFailMessage(exception, assemblyname)}
                 }));
-            Instance.SendPropertyChanged("LogEntries");
         }
 
 
@@ -178,31 +173,8 @@ namespace JPB.Shell.MEF.Log
                     {"Success", true},
                     {"Descriptor", GetSuccessIncludedMessage(filename)}
                 }));
-            Instance.SendPropertyChanged("LogEntries");
         }
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void SendPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-                handler(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #region LogEntries property
-
-        private List<ILogEntry> _logEntries = new List<ILogEntry>();
-
-        public List<ILogEntry> LogEntries
-        {
-            get { return _logEntries; }
-            set
-            {
-                _logEntries = value;
-                SendPropertyChanged("LogEntries");
-            }
-        }
-
-        #endregion
+        public ObservableCollection<ILogEntry> LogEntries { get; set; }
     }
 }
