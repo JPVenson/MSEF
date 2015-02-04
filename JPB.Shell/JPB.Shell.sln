@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JPB.Shell", "JPB.Shell\JPB.Shell.csproj", "{AF0A3EDB-4B05-48D7-911E-032E5199313C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JPB.Shell.Contracts", "JPB.Shell.Contracts\JPB.Shell.Contracts.csproj", "{24A73ED5-9F97-45D7-9502-893FA9B1452A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JPB.Shell.MEF", "JPB.Shell.MEF\JPB.Shell.MEF.csproj", "{35D30EC9-6F9D-448E-9A82-1EC790159213}"
@@ -27,26 +25,6 @@ Global
 		Server|x86 = Server|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AF0A3EDB-4B05-48D7-911E-032E5199313C}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{AF0A3EDB-4B05-48D7-911E-032E5199313C}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{AF0A3EDB-4B05-48D7-911E-032E5199313C}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{AF0A3EDB-4B05-48D7-911E-032E5199313C}.Debug|x86.ActiveCfg = Debug|x86
-		{AF0A3EDB-4B05-48D7-911E-032E5199313C}.Debug|x86.Build.0 = Debug|x86
-		{AF0A3EDB-4B05-48D7-911E-032E5199313C}.ExternalRelease|Any CPU.ActiveCfg = Release|x86
-		{AF0A3EDB-4B05-48D7-911E-032E5199313C}.ExternalRelease|Mixed Platforms.ActiveCfg = Release|x86
-		{AF0A3EDB-4B05-48D7-911E-032E5199313C}.ExternalRelease|Mixed Platforms.Build.0 = Release|x86
-		{AF0A3EDB-4B05-48D7-911E-032E5199313C}.ExternalRelease|x86.ActiveCfg = Release|x86
-		{AF0A3EDB-4B05-48D7-911E-032E5199313C}.ExternalRelease|x86.Build.0 = Release|x86
-		{AF0A3EDB-4B05-48D7-911E-032E5199313C}.Release|Any CPU.ActiveCfg = Release|x86
-		{AF0A3EDB-4B05-48D7-911E-032E5199313C}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{AF0A3EDB-4B05-48D7-911E-032E5199313C}.Release|Mixed Platforms.Build.0 = Release|x86
-		{AF0A3EDB-4B05-48D7-911E-032E5199313C}.Release|x86.ActiveCfg = Release|x86
-		{AF0A3EDB-4B05-48D7-911E-032E5199313C}.Release|x86.Build.0 = Release|x86
-		{AF0A3EDB-4B05-48D7-911E-032E5199313C}.Server|Any CPU.ActiveCfg = Server|x86
-		{AF0A3EDB-4B05-48D7-911E-032E5199313C}.Server|Mixed Platforms.ActiveCfg = Server|x86
-		{AF0A3EDB-4B05-48D7-911E-032E5199313C}.Server|Mixed Platforms.Build.0 = Server|x86
-		{AF0A3EDB-4B05-48D7-911E-032E5199313C}.Server|x86.ActiveCfg = Server|x86
-		{AF0A3EDB-4B05-48D7-911E-032E5199313C}.Server|x86.Build.0 = Server|x86
 		{24A73ED5-9F97-45D7-9502-893FA9B1452A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{24A73ED5-9F97-45D7-9502-893FA9B1452A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24A73ED5-9F97-45D7-9502-893FA9B1452A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -92,7 +70,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{AF0A3EDB-4B05-48D7-911E-032E5199313C} = {DA988A0F-550A-4827-A4CC-9EF25EDBBD83}
 		{24A73ED5-9F97-45D7-9502-893FA9B1452A} = {DA988A0F-550A-4827-A4CC-9EF25EDBBD83}
 		{35D30EC9-6F9D-448E-9A82-1EC790159213} = {DA988A0F-550A-4827-A4CC-9EF25EDBBD83}
 	EndGlobalSection
