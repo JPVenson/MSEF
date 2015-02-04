@@ -31,10 +31,9 @@ namespace JPB.Shell.MEF.Services
     [DebuggerStepThrough]
     public class ServicePool : IServicePool
     {
-        internal ServicePool(string priorityKey, string[] sublookuppaths)
+        internal ServicePool(string priorityKey, IEnumerable<string> sublookuppaths)
         {
-            _strongNameCatalog = new StrongNameCatalog(sublookuppaths, true);
-            _strongNameCatalog.PriorityKey = priorityKey;
+            _strongNameCatalog = new StrongNameCatalog(sublookuppaths, true) {PriorityKey = priorityKey};
             _strongNameCatalog.AsyncInit();
 
             Container = new CompositionContainer(_strongNameCatalog);
@@ -75,7 +74,7 @@ namespace JPB.Shell.MEF.Services
         //    Instance = CreateParamServicePool(priorityKey, sublookuppaths);
         //}
 
-        private List<Action<IService>> _callbacks;
+        private readonly List<Action<IService>> _callbacks;
 
         public void RegisterCallbackForServiceInit(Action<IService> serivce)
         {
@@ -340,6 +339,7 @@ namespace JPB.Shell.MEF.Services
         ///     The found <typeparamref name="T" /> will be Marshaled back to you
         /// </param>
         /// <returns>True if the Operation was Successful</returns>
+// ReSharper disable once RedundantAssignment
         public bool TryGetSingelService<T>([Out] [Required] T output) where T : class, IService
         {
             output = default(T);

@@ -11,5 +11,6 @@ namespace JPB.Shell.Example.Console.Contracts
     {
         string ID { get; }
         bool HandleInput(string args);
+        string HelpText { get; }
     }
 }

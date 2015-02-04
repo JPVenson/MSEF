@@ -7,8 +7,8 @@
     <ProjectGuid>{DB9BA539-AF57-475B-BB2E-828735CECBE7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>JPB.SHell.Example.Console.BasicMathFunctions</RootNamespace>
-    <AssemblyName>JPB.SHell.Example.Console.BasicMathFunctions</AssemblyName>
+    <RootNamespace>JPB.Shell.Example.Console.BasicMathFunctions</RootNamespace>
+    <AssemblyName>JPB.Shell.Example.Console.BasicMathFunctions</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\JPB.Shell.Example.Console\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
