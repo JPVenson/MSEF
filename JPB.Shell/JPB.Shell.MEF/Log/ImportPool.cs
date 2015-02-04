@@ -55,39 +55,37 @@ namespace JPB.Shell.MEF.Log
 
         private static string GetSuccessIncludedMessage(Assembly assembly)
         {
-            return ("Assambly '" + assembly + "' is Included and Fully Trusted");
+            return string.Format("Assambly '{0}' is Included and Fully Trusted", assembly);
         }
 
         private static string GetSuccessExcludedMessage(Assembly assembly)
         {
-            return ("Assambly '" + assembly + "' is Excluded");
+            return string.Format("Assambly '{0}' is Excluded", assembly);
         }
 
         private static string GetFailMessage(Exception e, Assembly assembly)
         {
-            return ("first chance exception of type '" + e.GetType() +
-                    "' was Handeled by StrongNameCatalog ... Assambly '" + assembly + "' is Excluded");
+            return string.Format("first chance exception of type '{0}' was Handeled by StrongNameCatalog ... Assambly '{1}' is Excluded", e.GetType(), assembly);
         }
 
         private static string GetFailMessage(Exception e, string assembly)
         {
-            return ("first chance exception of type '" + e.GetType() +
-                    "' was Handeled by StrongNameCatalog ... Assambly '" + assembly + "' is Excluded");
+            return string.Format("first chance exception of type '{0}' was Handeled by StrongNameCatalog ... Assambly '{1}' is Excluded", e.GetType(), assembly);
         }
 
         private static object GetSuccessIncludedMessage(string filename)
         {
-            return ("Assambly '" + filename + "' is Included and Fully Trusted");
+            return string.Format("Assambly '{0}' is Included and Fully Trusted", filename);
         }
 
         private static object GetImportFailMessage(Assembly assembly)
         {
-            return "Assambly '" + assembly + "' is not Excluded from the Project";
+            return string.Format("Assambly '{0}' is not Excluded from the Project", assembly);
         }
 
         private static object GetNotAnImportMessage(Assembly assembly)
         {
-            return "Assambly '" + assembly + "' is Excluded from the Project because it has no Imports";
+            return string.Format("Assambly '{0}' is Excluded from the Project because it has no Imports", assembly);
         }
 
         public static void AddSuccessMessage(Assembly assembly, string descriptor)
@@ -125,7 +123,7 @@ namespace JPB.Shell.MEF.Log
             Instance.LogEntries.Add(new LogEntry(assembly.FullName,
                 new Dictionary<string, object>
                 {
-                    {"Fail", false},
+                    {"Success", null},
                     {"Descriptor", GetNotAnImportMessage(assembly)}
                 }));
         }

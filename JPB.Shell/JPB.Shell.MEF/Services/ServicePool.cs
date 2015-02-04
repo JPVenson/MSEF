@@ -9,11 +9,10 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Runtime.Remoting.Channels;
 using System.Threading.Tasks;
 using JPB.Shell.Contracts.Interfaces;
 using JPB.Shell.Contracts.Interfaces.Metadata;
@@ -29,6 +28,7 @@ using JPB.Shell.MEF.Properties;
 
 namespace JPB.Shell.MEF.Services
 {
+    [DebuggerStepThrough]
     public class ServicePool : IServicePool
     {
         internal ServicePool(string priorityKey, string[] sublookuppaths)
@@ -36,6 +36,7 @@ namespace JPB.Shell.MEF.Services
             _strongNameCatalog = new StrongNameCatalog(sublookuppaths, true);
             _strongNameCatalog.PriorityKey = priorityKey;
             _strongNameCatalog.AsyncInit();
+
             Container = new CompositionContainer(_strongNameCatalog);
             ImportPool.Instance.ServiceLoad += Instance_ServiceLoad;
 
@@ -94,11 +95,11 @@ namespace JPB.Shell.MEF.Services
         /// </summary>
         internal void InitLoading()
         {
-            IEnumerable<Lazy<IService, IServiceMetadata>> serviceInternal = GetServiceInternal(false);
+            var serviceInternal = GetServiceInternal(false);
 
-            List<Lazy<IService, IServiceMetadata>> enumerable =
+            var enumerable =
                 serviceInternal.Where(s => s.Metadata.Contracts.Any(f => f == typeof(IApplicationProvider))).ToList();
-            List<Lazy<IService, IServiceMetadata>> asyncservices =
+            var asyncservices =
                 enumerable.Where(s => !s.Metadata.ForceSynchronism).ToList();
 
             foreach (var asyncservice in asyncservices.OrderBy(s => s.Metadata.Priority))
@@ -110,10 +111,11 @@ namespace JPB.Shell.MEF.Services
                 }
                 catch (Exception ex)
                 {
-                    ApplicationContainer.ImportPool.LogEntries.Add(
-                        new LogEntry(
-                            string.Format("Error on startup of module: {0}", asyncservice.Metadata.Descriptor),
-                            new Dictionary<string, object> { { "Exeption", ex } }));
+                    if (ApplicationContainer.ImportPool != null)
+                        ApplicationContainer.ImportPool.LogEntries.Add(
+                            new LogEntry(
+                                string.Format("Error on startup of module: {0}", asyncservice.Metadata.Descriptor),
+                                new Dictionary<string, object> { { "Exeption", ex } }));
                 }
             }
 
@@ -125,9 +127,10 @@ namespace JPB.Shell.MEF.Services
                 }
                 catch (Exception ex)
                 {
-                    ApplicationContainer.ImportPool.LogEntries.Add(
-                        new LogEntry(string.Format("Error on startup of module: {0}", val.Metadata.Descriptor),
-                            new Dictionary<string, object> { { "Exeption", ex } }));
+                    if (ApplicationContainer.ImportPool != null)
+                        ApplicationContainer.ImportPool.LogEntries.Add(
+                            new LogEntry(string.Format("Error on startup of module: {0}", val.Metadata.Descriptor),
+                                new Dictionary<string, object> { { "Exeption", ex } }));
                 }
             }
         }
@@ -453,7 +456,7 @@ namespace JPB.Shell.MEF.Services
         private IEnumerable<Lazy<IService, IServiceMetadata>> _exportRef;
 
         /// <summary>
-        ///     The General method to get Services without any kind of Filterin
+        ///     The General method to get Services without any kind of Filtering
         ///     This Code is Internal and should not be used directly from your code
         /// </summary>
         /// <param name="ignoreDefauld">
@@ -467,6 +470,7 @@ namespace JPB.Shell.MEF.Services
                     Container.GetExports<IService, IServiceMetadata>().Select(s => new Lazy<IService, IServiceMetadata>(
                         () =>
                         {
+                            //Repack the Lazy to this one to support OnStart
                             var createdValue = this.GetCreatedValue<IService>(s);
                             return createdValue;
                         }, s.Metadata));
