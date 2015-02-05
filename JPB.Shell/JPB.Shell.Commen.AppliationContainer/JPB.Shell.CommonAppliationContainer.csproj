@@ -35,7 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="JPB.WPFBase">
-      <HintPath>..\3th party\JPB.WPFBase.dll</HintPath>
+      <HintPath>..\packages\WPFBase.1.0.0\lib\net45\JPB.WPFBase.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
