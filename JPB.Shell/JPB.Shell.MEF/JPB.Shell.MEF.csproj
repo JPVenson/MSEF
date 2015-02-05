@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\bin\VS Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -69,6 +69,9 @@
       <Project>{24A73ED5-9F97-45D7-9502-893FA9B1452A}</Project>
       <Name>JPB.Shell.Contracts</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="JPB.Shell.MEF.licenseheader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

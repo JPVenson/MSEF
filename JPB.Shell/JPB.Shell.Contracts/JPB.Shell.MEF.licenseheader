@@ -1,4 +1,6 @@
-﻿
+extensions: designer.cs generated.cs
+extensions: .cs .cpp .h
+
 //By Jean-Pierre Bachmann
 //http://www.codeproject.com/Articles/682642/Using-a-Plugin-Based-Application
 //Questions? Ask me!
@@ -27,19 +29,3 @@ A "contributor" is any person that distributes its contribution under this licen
 
 All at all - Be carefull when using this code and do not remove the License!
 */
-
-#region Jean-Pierre Bachmann
-
-// Erstellt von Jean-Pierre Bachmann am 12:47
-
-#endregion
-
-using JPB.Shell.Contracts.Interfaces.Services.ModuleServices;
-
-namespace JPB.Shell.Contracts.Interfaces.Services.ApplicationServices
-{
-    public interface IApplicationContainer : IVisualService
-    {
-        IApplicationContext ApplicationContextProxy { get; }
-    }
-}
