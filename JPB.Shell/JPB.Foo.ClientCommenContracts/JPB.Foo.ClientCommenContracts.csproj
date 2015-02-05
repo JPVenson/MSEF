@@ -30,7 +30,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JPB.Shell.Contracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MSEF.1.0.0\lib\net45\JPB.Shell.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="JPB.Shell.MEF">
+      <HintPath>..\packages\MSEF.1.0.0\lib\net45\JPB.Shell.MEF.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -43,10 +52,7 @@
     <Compile Include="Service\IFooDatabaseService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\JPB.Shell.Contracts\JPB.Shell.Contracts.csproj">
-      <Project>{24A73ED5-9F97-45D7-9502-893FA9B1452A}</Project>
-      <Name>JPB.Shell.Contracts</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

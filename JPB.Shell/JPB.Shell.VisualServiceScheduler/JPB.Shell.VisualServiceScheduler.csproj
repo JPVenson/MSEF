@@ -37,6 +37,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JPB.Shell.Contracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\bin\VS Output\JPB.Shell.Contracts.dll</HintPath>
+    </Reference>
     <Reference Include="JPB.WPFBase">
       <HintPath>..\3th party\JPB.WPFBase.dll</HintPath>
     </Reference>
@@ -96,10 +100,6 @@
     <ProjectReference Include="..\JPB.Shell.CommonContracts\JPB.Shell.CommonContracts.csproj">
       <Project>{2727CA10-32B6-4AD0-8996-A68884FDE3F9}</Project>
       <Name>JPB.Shell.CommonContracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\JPB.Shell.Contracts\JPB.Shell.Contracts.csproj">
-      <Project>{24A73ED5-9F97-45D7-9502-893FA9B1452A}</Project>
-      <Name>JPB.Shell.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -93,12 +93,21 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JPB.Shell.Contracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MSEF.1.0.0\lib\net45\JPB.Shell.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="JPB.Shell.MEF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MSEF.1.0.0\lib\net45\JPB.Shell.MEF.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Private>True</Private>
     </Reference>
     <Reference Include="System.ComponentModel.Composition">
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core">
       <Private>True</Private>
     </Reference>
@@ -106,6 +115,7 @@
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase">
       <Private>True</Private>
     </Reference>
@@ -138,6 +148,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -145,16 +156,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <ProjectReference Include="..\JPB.Shell.Contracts\JPB.Shell.Contracts.csproj">
-      <Project>{24A73ED5-9F97-45D7-9502-893FA9B1452A}</Project>
-      <Name>JPB.Shell.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\JPB.Shell.MEF\JPB.Shell.MEF.csproj">
-      <Project>{35d30ec9-6f9d-448e-9a82-1ec790159213}</Project>
-      <Name>JPB.Shell.MEF</Name>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>

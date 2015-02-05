@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:model="clr-namespace:JPB.Shell.VisualServiceScheduler.Model"
-             xmlns:logging="clr-namespace:JPB.Shell.Contracts.Interfaces.Services.ShellServices.Logging;assembly=JPB.Shell.Contracts"
              xmlns:viewModel="clr-namespace:JPB.Shell.VisualServiceScheduler.ViewModel"
+             xmlns:logging="clr-namespace:JPB.Shell.Contracts.Interfaces.Services.ShellServices.Logging;assembly=JPB.Shell.Contracts"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="1000" d:DataContext="{d:DesignInstance viewModel:MainWindowViewModel}">
 

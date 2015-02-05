@@ -6,6 +6,7 @@
 
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using JPB.Shell.Contracts.Interfaces.Services.ShellServices.Logging;
 using JPB.WPFBase.MVVM.ViewModel;
 

@@ -34,6 +34,14 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JPB.Shell.Contracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MSEF.1.0.0\lib\net45\JPB.Shell.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="JPB.Shell.MEF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MSEF.1.0.0\lib\net45\JPB.Shell.MEF.dll</HintPath>
+    </Reference>
     <Reference Include="JPB.WPFBase">
       <HintPath>..\packages\WPFBase.1.0.0\lib\net45\JPB.WPFBase.dll</HintPath>
     </Reference>
@@ -44,6 +52,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
@@ -73,10 +82,6 @@
     <ProjectReference Include="..\JPB.Shell.CommonContracts\JPB.Shell.CommonContracts.csproj">
       <Project>{2727ca10-32b6-4ad0-8996-a68884fde3f9}</Project>
       <Name>JPB.Shell.CommonContracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\JPB.Shell.Contracts\JPB.Shell.Contracts.csproj">
-      <Project>{24A73ED5-9F97-45D7-9502-893FA9B1452A}</Project>
-      <Name>JPB.Shell.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
