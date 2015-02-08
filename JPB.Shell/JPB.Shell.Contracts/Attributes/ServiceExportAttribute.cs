@@ -1,5 +1,4 @@
-﻿
-//By Jean-Pierre Bachmann
+﻿//By Jean-Pierre Bachmann
 //http://www.codeproject.com/Articles/682642/Using-a-Plugin-Based-Application
 //Questions? Ask me!
 //Microsoft Public License (MS-PL)

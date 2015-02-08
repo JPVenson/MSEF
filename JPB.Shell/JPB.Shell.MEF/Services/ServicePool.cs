@@ -66,44 +66,12 @@ namespace JPB.Shell.MEF.Services
             _strongNameCatalog = new StrongNameCatalog(sublookuppaths, true);
             _strongNameCatalog.PriorityKey = priorityKey;
             _strongNameCatalog.AsyncInit();
-
+           
             Container = new CompositionContainer(_strongNameCatalog);
             ImportPool.Instance.ServiceLoad += Instance_ServiceLoad;
 
             _callbacks = new List<Action<IService>>();
         }
-
-        //internal static ServicePool CreateParamServicePool(string priorityKey, params string[] subPaths)
-        //{
-        //    var pool = new ServicePool(priorityKey, subPaths);
-        //    Instance = pool;
-        //    if (ApplicationContainer == null)
-        //        ApplicationContainer = new ApplicationContext(ImportPool.Instance, MessageBroker.Instance, pool,
-        //            DataBroker.Instance, VisualModuleManager.Instance);
-        //    pool.InitLoading();
-        //    return pool;
-        //}
-
-        //internal static ServicePool CreateParamServicePool(string priorityKey)
-        //{
-        //    return CreateParamServicePool(priorityKey,
-        //        new[] {Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)});
-        //}
-
-        //internal static ServicePool CreateServicePool()
-        //{
-        //    return CreateParamServicePool(string.Empty);
-        //}
-
-        //public static void PreLoadServicePool(string priorityKey)
-        //{
-        //    Instance = CreateParamServicePool(priorityKey);
-        //}
-
-        //public static void PreLoadServicePool(string priorityKey, params string[] sublookuppaths)
-        //{
-        //    Instance = CreateParamServicePool(priorityKey, sublookuppaths);
-        //}
 
         private List<Action<IService>> _callbacks;
 
@@ -483,7 +451,31 @@ namespace JPB.Shell.MEF.Services
             return GetServiceInternal(false).Select(s => s.Metadata);
         }
 
-        private IEnumerable<Lazy<IService, IServiceMetadata>> _exportRef;
+        private List<Lazy<IService, IServiceMetadata>> _exportRef;
+
+        private void EnumerateContainer()
+        {
+            if (_exportRef == null)
+            {
+                _exportRef =
+                    Container
+                    .GetExports<IService, IServiceMetadata>()
+                    .Select(s => new Lazy<IService, IServiceMetadata>(
+                        () => GetCreatedValue<IService>(s), s.Metadata))
+                        .ToList();
+            }
+            else
+            {
+                if (_strongNameCatalog.HasChanged)
+                {
+                    var countOld = _exportRef.Count;
+                    var newElements = Container.GetExports<IService, IServiceMetadata>().Skip(countOld);
+                    _exportRef.AddRange(newElements.Select(s => new Lazy<IService, IServiceMetadata>(
+                        () => GetCreatedValue<IService>(s), s.Metadata))
+                        .ToList());
+                }
+            }
+        }
 
         /// <summary>
         ///     The General method to get Services without any kind of Filtering
@@ -496,14 +488,7 @@ namespace JPB.Shell.MEF.Services
         public IEnumerable<Lazy<IService, IServiceMetadata>> GetServiceInternal(bool ignoreDefauld = true)
         {
             if (_exportRef == null)
-                _exportRef =
-                    Container.GetExports<IService, IServiceMetadata>().Select(s => new Lazy<IService, IServiceMetadata>(
-                        () =>
-                        {
-                            //Repack the Lazy to this one to support OnStart
-                            var createdValue = this.GetCreatedValue<IService>(s);
-                            return createdValue;
-                        }, s.Metadata));
+                EnumerateContainer();
 
             if (ignoreDefauld)
             {
@@ -522,7 +507,10 @@ namespace JPB.Shell.MEF.Services
         {
             throw new NotImplementedException("There is no unique inmplementation of the Service with the type : \r\n" +
                                               typeof(T) +
-                                              "\r\nThe program can not Iditify one Module and tried to load the service but\r\n it allso does not found only one Defauld inplementation of the DefauldIncentFixerService.\r\n\r\n See Data")
+                                              "\r\nThe program can not Iditify one Module and tried to load the service but\r\n" +
+                                              "it allso does not found only one Defauld inplementation of the DefauldIncentFixerService." +
+                                              "Maybe you are missing the Target DLL take a look into the Current Directory" +
+                                              "\r\n\r\n See Data")
             {
                 Data = { { "Type", typeof(T) } }
             };

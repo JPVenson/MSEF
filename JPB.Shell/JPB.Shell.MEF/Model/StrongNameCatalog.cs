@@ -85,6 +85,8 @@ namespace JPB.Shell.MEF.Model
 
         public bool WithCheckForDuplicates { get; set; }
 
+        public bool HasChanged { get; set; }
+
         public override IQueryable<ComposablePartDefinition> Parts
         {
             get { return _aggregateCatalog.Parts; }
