@@ -473,6 +473,7 @@ namespace JPB.Shell.MEF.Services
                     _exportRef.AddRange(newElements.Select(s => new Lazy<IService, IServiceMetadata>(
                         () => GetCreatedValue<IService>(s), s.Metadata))
                         .ToList());
+                    _strongNameCatalog.HasChanged = false;
                 }
             }
         }
