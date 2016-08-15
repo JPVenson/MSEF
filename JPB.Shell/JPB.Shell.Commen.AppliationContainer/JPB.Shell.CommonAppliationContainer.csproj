@@ -34,6 +34,15 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JPB.Shell.Contracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MSEF.1.0.0\lib\net45\JPB.Shell.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="JPB.WPFToolsAwsome, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WPFToolsAwsome.1.0.4\lib\net45\JPB.WPFToolsAwsome.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Windows.Shell, Version=3.5.41019.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="RibbonControlsLibrary, Version=4.0.0.11019, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -69,16 +78,16 @@
       <Project>{2727ca10-32b6-4ad0-8996-a68884fde3f9}</Project>
       <Name>JPB.Shell.CommonContracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\JPB.Shell.Contracts\JPB.Shell.Contracts.csproj">
-      <Project>{24A73ED5-9F97-45D7-9502-893FA9B1452A}</Project>
-      <Name>JPB.Shell.Contracts</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="View\MainWindowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

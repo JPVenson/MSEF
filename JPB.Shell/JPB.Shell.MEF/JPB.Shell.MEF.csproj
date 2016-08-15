@@ -66,7 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\JPB.Shell.Contracts\JPB.Shell.Contracts.csproj">
-      <Project>{24A73ED5-9F97-45D7-9502-893FA9B1452A}</Project>
+      <Project>{24a73ed5-9f97-45d7-9502-893fa9b1452a}</Project>
       <Name>JPB.Shell.Contracts</Name>
     </ProjectReference>
   </ItemGroup>

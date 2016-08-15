@@ -33,7 +33,7 @@ namespace JPB.Shell
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            ServicePoolFactory.CreatePool("JPB");
+            ServicePoolFactory.CreatePool();
             var defaultSingelService = ServicePool.Instance.GetDefaultSingelService<IApplicationContainer>();
 
             if (defaultSingelService == null)
