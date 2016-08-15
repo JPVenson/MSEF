@@ -3,6 +3,10 @@
 ################################################################################
 
 /JPB.Shell/JPB.Shell.MEF/obj/Debug
+/JPB.Shell/.vs/JPB.Shell/v14
+/JPB.Shell/JPB.Shell.Contracts/obj/Debug
+
+/JPB.Shell/JPB.Shell.MEF/obj/Debug
 /JPB.Shell/JPB.Shell.CommonContracts/bin/Debug
 /JPB.Shell/JPB.Shell.CommonContracts/obj/Debug
 /JPB.Shell/JPB.Shell.Contracts/obj/Debug
