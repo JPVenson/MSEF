@@ -211,7 +211,7 @@ namespace JPB.Shell.MEF.Model
 #if (SECLOADING)
                                     var publicKey = assemblyName.GetPublicKey();
 
-                                    if (publicKey == null) 
+                                    if (publicKey == null)
                                         continue;
 
                                     var trusted = _trustedKeys.Any(trustedKey => assemblyName.GetPublicKey().SequenceEqual(trustedKey));

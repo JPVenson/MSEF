@@ -41,21 +41,26 @@ using JPB.Shell.MEF.Services;
 
 namespace JPB.Shell.MEF.Factorys
 {
-    public class ServicePoolFactory
-    {
-        public static IServicePool CreatePool()
-        {
-            return CreatePool(string.Empty, Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-        }
+	public class ServicePoolFactory
+	{
+		public static IServicePool CreatePool()
+		{
+			return CreatePool(string.Empty, Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+		}
 
-        public static IServicePool CreatePool(string priorityKey, params string[] sublookuppaths)
-        {
-            var pool = new ServicePool(priorityKey, sublookuppaths);
-            ServicePool.Instance = pool;
-            if (ServicePool.ApplicationContainer == null)
-                ServicePool.ApplicationContainer = new ApplicationContext(ImportPool.Instance, MessageBroker.Instance, pool, null, VisualModuleManager.Instance);
-            pool.InitLoading();
-            return pool;
-        }
-    }
+		public static IServicePool CreatePool(string priorityKey, params string[] sublookuppaths)
+		{
+			if (sublookuppaths == null || !sublookuppaths.Any(Directory.Exists))
+			{
+				throw new InvalidOperationException("Please provided any valid path that points to a directory");
+			}
+
+			var pool = new ServicePool(priorityKey, sublookuppaths);
+			ServicePool.Instance = pool;
+			if (ServicePool.ApplicationContainer == null)
+				ServicePool.ApplicationContainer = new ApplicationContext(ImportPool.Instance, MessageBroker.Instance, pool, null, VisualModuleManager.Instance);
+			pool.InitLoading();
+			return pool;
+		}
+	}
 }
