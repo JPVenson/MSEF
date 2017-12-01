@@ -322,7 +322,7 @@ namespace JPB.Shell.MEF.Factorys
 	<li>Execute all services that are marked to be executed synchrony inside the caller thread</li>
 </ol>
 
-<p>This info is important when using multiple Applications that are depend on each other. When ApplicationSerivce A tries to load data from ApplicationService B but service B is not loaded it will fail and cause in Strange behaviors then<em> remember just because it will work on your machine does not mean that it will work on every mashie.</em> This is caused be the huge impact of Multithreadding and Tasking. Every Machine decides on its own how Tasks and Threads are handled.</p>
+<p>This info is important when using multiple Applications that are depend on each other. When ApplicationSerivce A tries to load data from ApplicationService B but service B is not loaded it will fail and cause in Strange behaviors then<em> remember just because it will work on your machine does not mean that it will work on every maschine.</em> This is caused be the huge impact of Multithreadding and Tasking. Every Machine decides on its own how Tasks and Threads are handled.</p>
 
 <h3>Usage and Meaning of IApplicationProvider.</h3>
 
