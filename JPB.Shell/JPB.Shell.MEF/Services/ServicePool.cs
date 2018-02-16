@@ -488,7 +488,7 @@ namespace JPB.Shell.MEF.Services
         {
             throw new NotImplementedException("There is no unique inmplementation of the Service with the type : \r\n" +
                                               typeof(T) +
-                                              "\r\nThe program can not Iditify one Module and tried to load the service but\r\n it allso does not found only one Defauld inplementation of the DefauldIncentFixerService.\r\n\r\n See Data")
+                                              "\r\nThe program can not Iditify one Module and tried to load the service but\r\n it also does not found only one Defauld inplementation of the DefauldIncentFixerService.\r\n\r\n See Data")
             {
                 Data = { { "Type", typeof(T) } }
             };

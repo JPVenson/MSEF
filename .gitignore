@@ -2,6 +2,16 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
+/JPB.Shell/JPB.Shell.CommonContracts/bin/Debug
+/JPB.Shell/JPB.Shell.CommonContracts/obj/Debug
+/JPB.Shell/JPB.Shell.Contracts/obj/Debug
+/JPB.Shell/JPB.Shell.MEF/obj/Debug
+/JPB.Shell/packages/MSEF.1.0.0/lib/net45
+/JPB.Shell/packages/WPFToolsAwsome.1.0.4/lib/net45
+################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
 /bin/Debug
 /obj/Debug
 /JPB.Shell/packages/
