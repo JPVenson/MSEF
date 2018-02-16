@@ -1,7 +1,16 @@
-﻿################################################################################
+﻿﻿################################################################################
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
+/bin/Debug
+/obj/Debug
+/JPB.Shell/packages/
+/JPB.Shell/JPB.Shell.Commen.AppliationContainer/obj/Debug
+/JPB.Shell/_ReSharper.Caches/ReSharperPlatformVs149.JPB.Shell.00
+*.user
 /JPB.Shell/JPB.Shell.MEF/obj/Debug
-/JPB.Shell/.vs/JPB.Shell/v14
 /JPB.Shell/JPB.Shell.Contracts/obj/Debug
+/JPB.Shell/JPB.Shell.CommonContracts/obj/Debug
+/JPB.Shell/JPB.Shell.CommonContracts/bin/Debug
+/JPB.Shell/JPB.Shell/obj/x86/Debug
+*.suo

@@ -43,9 +43,9 @@ namespace JPB.Shell.MEF.Factorys
 {
     public class ServicePoolFactory
     {
-        public static IServicePool CreatePool()
+        public static IServicePool CreatePool(string priorityKey = null)
         {
-            return CreatePool(string.Empty, Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+            return CreatePool(priorityKey, Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
         }
 
         public static IServicePool CreatePool(string priorityKey, params string[] sublookuppaths)
