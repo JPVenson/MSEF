@@ -19,7 +19,7 @@ All formatting, additions and alterations Copyright © CodeProject, 1999-2015
 <!-- Start Article -->
 <span id="ArticleContent">
 
-<p>There is a small Tutorial for this topic on <a href="http://​https://www.youtube.com/watch?v=pvXi1lbLz-s">YouTube</a>&nbsp;</p>
+<p>There is a small Tutorial for this topic on <a href="https://www.youtube.com/watch?v=pvXi1lbLz-s">YouTube</a>&nbsp;</p>
 
 <p style="text-align: center;"><em style="color: rgb(51, 51, 51); font-size: 30px;"><strong>HINT !</strong></em></p>
 
