@@ -54,7 +54,7 @@ namespace JPB.Shell.MEF.Services
 
         private DataBroker()
         {
-            string filepath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
+            var filepath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
                               @"\Data\ShellDatastore.xml";
             Filename = filepath;
 
@@ -66,7 +66,10 @@ namespace JPB.Shell.MEF.Services
             get
             {
                 if (_settingsBrokerInstances == null)
-                    LoadFromFile(Filename);
+                {
+	                LoadFromFile(Filename);
+                }
+
                 return _settingsBrokerInstances;
             }
             set { _settingsBrokerInstances = value; }
@@ -100,17 +103,24 @@ namespace JPB.Shell.MEF.Services
 
         private void AddAppEnvironmentPath()
         {
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Data\";
+            var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Data\";
             if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
+            {
+	            Directory.CreateDirectory(path);
+            }
 
-            string filepath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
+            var filepath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
                               @"\Data\ShellDatastore.xml";
 
             if (string.IsNullOrEmpty(GetData<string>("Environment.ApplicationFolder")))
-                SetData("Environment.ApplicationFolder", path);
+            {
+	            SetData("Environment.ApplicationFolder", path);
+            }
+
             if (string.IsNullOrEmpty(GetData<string>("Environment.ApplicationSaveFile")))
-                SetData("Environment.ApplicationSaveFile", filepath);
+            {
+	            SetData("Environment.ApplicationSaveFile", filepath);
+            }
         }
 
         ~DataBroker()
@@ -137,16 +147,20 @@ namespace JPB.Shell.MEF.Services
 
         public void ChangeFileWithCopy(string filename)
         {
-            SettingsBrokerInstance[] deepcopy = SettingsBrokerInstances.ToArray();
+            var deepcopy = SettingsBrokerInstances.ToArray();
 
             Filename = filename;
 
-            foreach (SettingsBrokerInstance settingsBrokerInstance in deepcopy)
+            foreach (var settingsBrokerInstance in deepcopy)
             {
                 if (GetData<object>(settingsBrokerInstance.Key) != null)
-                    OverrideData(settingsBrokerInstance.Key, settingsBrokerInstance.Value);
+                {
+	                OverrideData(settingsBrokerInstance.Key, settingsBrokerInstance.Value);
+                }
                 else
-                    SetData(settingsBrokerInstance.Key, settingsBrokerInstance.Value);
+                {
+	                SetData(settingsBrokerInstance.Key, settingsBrokerInstance.Value);
+                }
             }
         }
 
@@ -163,7 +177,9 @@ namespace JPB.Shell.MEF.Services
         public T GetData<T>(string key) where T : class
         {
             if (SettingsBrokerInstances.All(s => s.Key != key))
-                return default(T);
+            {
+	            return default(T);
+            }
 
             return SettingsBrokerInstances.FirstOrDefault(s => key == s.Key).Value as T;
         }
@@ -171,7 +187,9 @@ namespace JPB.Shell.MEF.Services
         public void SetData<T>(string key, T value) where T : class
         {
             if (SettingsBrokerInstances.Any(s => s.Key == key))
-                throw new NotSupportedException("Allready contains this item");
+            {
+	            throw new NotSupportedException("Allready contains this item");
+            }
 
             SettingsBrokerInstances.Add(new SettingsBrokerInstance {Key = key, Value = value});
         }
@@ -185,7 +203,9 @@ namespace JPB.Shell.MEF.Services
         public bool RemoveData<T>(string key) where T : class
         {
             if (SettingsBrokerInstances.All(s => s.Key != key))
-                throw new NotSupportedException("Item does not exists");
+            {
+	            throw new NotSupportedException("Item does not exists");
+            }
 
             return SettingsBrokerInstances.Remove(SettingsBrokerInstances.FirstOrDefault(s => s.Key == key));
         }
@@ -211,8 +231,10 @@ namespace JPB.Shell.MEF.Services
         public void SaveGeneric(string filename)
         {
             var ts = new TypeStore();
-            foreach (SettingsBrokerInstance settingsBrokerInstance in SettingsBrokerInstances)
-                ts.Typen.Add(settingsBrokerInstance.Value.GetType());
+            foreach (var settingsBrokerInstance in SettingsBrokerInstances)
+            {
+	            ts.Typen.Add(settingsBrokerInstance.Value.GetType());
+            }
 
             using (var fs = new FileStream(filename + ".typestore", FileMode.Create))
             {

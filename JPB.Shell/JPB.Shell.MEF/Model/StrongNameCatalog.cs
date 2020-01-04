@@ -97,45 +97,55 @@ namespace JPB.Shell.MEF.Model
         public void AsyncInit()
         {
             //Debugger.Launch();
-            foreach (string internalpath in _paths.Where(Directory.Exists))
+            foreach (var internalpath in _paths.Where(Directory.Exists))
             {
                 if (_watchDirectorys)
-                    _watchers.Add(CreateWatcher(internalpath));
+                {
+	                _watchers.Add(CreateWatcher(internalpath));
+                }
 
-                string[] files = Directory.GetFiles(internalpath, "*.dll");
+                var files = Directory.GetFiles(internalpath, "*.dll");
 
                 if (WithCheckForDuplicates)
                 {
-                    IEnumerable<IGrouping<string, string>> duplicates = files
+                    var duplicates = files
                         .GroupBy(i => i)
                         .Where(g => g.Count() > 1);
 
                     foreach (var group in duplicates)
                     {
-                        Assembly currass = Assembly.LoadFrom(@group.First());
+                        var currass = AssemblyName.GetAssemblyName(@group.First());
                         var exep = new List<string>();
 
-                        foreach (string assamblys in @group)
+                        foreach (var assamblys in @group)
                         {
-                            Assembly buffass = Assembly.LoadFrom(assamblys);
-                            if (buffass.GetName().Version > currass.GetName().Version)
-                                currass = buffass;
+                            var buffass = AssemblyName.GetAssemblyName(assamblys);
+                            if (buffass.Version > currass.Version)
+                            {
+	                            currass = buffass;
+                            }
                             else
-                                exep.Add(assamblys);
+                            {
+	                            exep.Add(assamblys);
+                            }
                         }
                         files = files.Except(exep).ToArray();
                     }
                 }
 
-                ParallelLoopResult parallelLoopResult = Parallel.ForEach(files, CheckAndAddAssambly);
+                var parallelLoopResult = Parallel.ForEach(files, CheckAndAddAssambly);
 
                 if (!parallelLoopResult.IsCompleted)
-                    throw new ArgumentException("The Strong name Catalog is Broken in his Constructor");
+                {
+	                throw new ArgumentException("The Strong name Catalog is Broken in his Constructor");
+                }
 
                 var thread = new Thread(() =>
                 {
-                    foreach (string lowpriorityassambly in LowPriorityList)
-                        CheckAndAddAssambly(lowpriorityassambly, () => { });
+                    foreach (var lowpriorityassambly in LowPriorityList)
+                    {
+	                    CheckAndAddAssambly(lowpriorityassambly, () => { });
+                    }
                 });
                 thread.SetApartmentState(ApartmentState.MTA);
                 thread.Priority = ThreadPriority.Highest;
@@ -147,7 +157,7 @@ namespace JPB.Shell.MEF.Model
 
         private void CheckAndAddAssambly([NotNull] string filename, ParallelLoopState state)
         {
-            string fileName = Path.GetFileName(filename);
+            var fileName = Path.GetFileName(filename);
 
             if (fileName != null &&
                 (!string.IsNullOrEmpty(PriorityKey) &&
@@ -207,7 +217,9 @@ namespace JPB.Shell.MEF.Model
             }
 
             if (assemblyName == null)
-                return;
+            {
+	            return;
+            }
 #if (SECLOADING)
                                     var publicKey = assemblyName.GetPublicKey();
 
@@ -230,7 +242,9 @@ namespace JPB.Shell.MEF.Model
                 }
 
                 if (_aggregateCatalog.Catalogs.Any(s => s.ToString() == assam.ToString()))
-                    return;
+                {
+	                return;
+                }
 
                 if (Changing != null)
                 {
@@ -262,20 +276,20 @@ namespace JPB.Shell.MEF.Model
         /// <param name="assambly">Your Target assambly</param>
         public void FreeAssambly(Assembly assambly)
         {
-            string assemblyName = assambly.Location;
-            IEnumerable<AssemblyCatalog> all = _aggregateCatalog.Catalogs.Where(s =>
+            var assemblyName = assambly.Location;
+            var all = _aggregateCatalog.Catalogs.Where(s =>
             {
                 var assemblyCatalog = s as AssemblyCatalog;
                 if (assemblyCatalog != null)
                 {
-                    Assembly assamblName = assemblyCatalog.Assembly;
-                    string fn = assamblName.Location;
+                    var assamblName = assemblyCatalog.Assembly;
+                    var fn = assamblName.Location;
                     return assemblyName == fn;
                 }
                 return false;
             }).Cast<AssemblyCatalog>();
 
-            AssemblyCatalog[] assemblyCatalogs = all as AssemblyCatalog[] ?? all.ToArray();
+            var assemblyCatalogs = all as AssemblyCatalog[] ?? all.ToArray();
 
             if (!assemblyCatalogs.Any())
             {
@@ -286,17 +300,19 @@ namespace JPB.Shell.MEF.Model
             AssemblyCatalog first;
             if (assemblyCatalogs.Count() != 1)
             {
-                Version version = assemblyCatalogs.Max(s => AssemblyName.GetAssemblyName(s.Assembly.FullName).Version);
+                var version = assemblyCatalogs.Max(s => AssemblyName.GetAssemblyName(s.Assembly.FullName).Version);
                 first =
                     assemblyCatalogs.FirstOrDefault(
                         s => AssemblyName.GetAssemblyName(s.Assembly.FullName).Version == version);
             }
             else
-                first = assemblyCatalogs.FirstOrDefault();
+            {
+	            first = assemblyCatalogs.FirstOrDefault();
+            }
 
             if (first != null)
             {
-                IQueryable<ComposablePartDefinition> parts = first.Parts;
+                var parts = first.Parts;
 
                 if (Changing != null)
                 {
@@ -333,11 +349,15 @@ namespace JPB.Shell.MEF.Model
         private void OnChanged(object sender, FileSystemEventArgs e)
         {
             if (e.ChangeType != WatcherChangeTypes.Created)
-                return;
+            {
+	            return;
+            }
 
-            string extension = Path.GetExtension(e.FullPath);
+            var extension = Path.GetExtension(e.FullPath);
             if (extension != null && extension.ToLower() == ".dll")
-                CheckAndAddAssambly(e.FullPath, () => { });
+            {
+	            CheckAndAddAssambly(e.FullPath, () => { });
+            }
         }
 
         /// <summary>

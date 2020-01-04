@@ -110,10 +110,12 @@ namespace JPB.Shell.MEF.Services
 				catch (Exception ex)
 				{
 					if (ApplicationContainer.ImportPool != null)
+					{
 						ApplicationContainer.ImportPool.LogEntries.Add(
 							new LogEntry(
 								string.Format("Error on startup of module: {0}", asyncservice.Metadata.Descriptor),
 								new Dictionary<string, object> { { "Exeption", ex } }));
+					}
 				}
 			}
 
@@ -126,9 +128,11 @@ namespace JPB.Shell.MEF.Services
 				catch (Exception ex)
 				{
 					if (ApplicationContainer.ImportPool != null)
+					{
 						ApplicationContainer.ImportPool.LogEntries.Add(
 							new LogEntry(string.Format("Error on startup of module: {0}", val.Metadata.Descriptor),
 								new Dictionary<string, object> { { "Exeption", ex } }));
+					}
 				}
 			}
 		}
@@ -280,26 +284,35 @@ namespace JPB.Shell.MEF.Services
 			{
 				var service = defauldInplementations.First();
 				if (service != null)
+				{
 					return service.Value as T;
+				}
 			}
 
 			if (IsIncident || !defauldInplementations.Any())
+			{
 				ThrowNotImplementedEx<T>();
+			}
+
 			IsIncident = true;
 
 			var rightservice = GetDefaultSingelService<IIncidentFixerService>();
 
 			if (rightservice != null)
 			{
-				Lazy<IService, IServiceMetadata> service = rightservice.OnIncident(defauldInplementations);
+				var service = rightservice.OnIncident(defauldInplementations);
 
 				if (service == null)
+				{
 					ThrowNotImplementedEx<T>();
+				}
 
 				IsIncident = false;
 
 				if (service != null)
+				{
 					return service.Value as T;
+				}
 			}
 
 			IsIncident = false;
@@ -320,7 +333,10 @@ namespace JPB.Shell.MEF.Services
 		{
 			var serv = GetServiceInternal().FirstOrDefault(m => m.Metadata.Contracts.Any(f => f == typeof(T)));
 			if (serv == null)
+			{
 				return null;
+			}
+
 			return serv.Value as T;
 
 		}
@@ -352,7 +368,9 @@ namespace JPB.Shell.MEF.Services
 		private T GetCreatedValue<T>(Lazy<IService, IServiceMetadata> source) where T : class, IService
 		{
 			if (source == null)
+			{
 				return null;
+			}
 
 			if (!source.IsValueCreated)
 			{
@@ -425,7 +443,7 @@ namespace JPB.Shell.MEF.Services
 		/// <returns>All found metadata</returns>
 		public IEnumerable<T> GetMetadatas<T>() where T : class, IServiceMetadata
 		{
-			IEnumerable<Lazy<IService, T>> export = Container.GetExports<IService, T>();
+			var export = Container.GetExports<IService, T>();
 			return export.Where(s => !s.Metadata.IsDefauldService).Select(s => s.Metadata);
 		}
 
@@ -486,7 +504,9 @@ namespace JPB.Shell.MEF.Services
 		public IEnumerable<Lazy<IService, IServiceMetadata>> GetServiceInternal(bool ignoreDefauld = true)
 		{
 			if (_exportRef == null)
+			{
 				EnumerateContainer();
+			}
 
 			if (ignoreDefauld)
 			{

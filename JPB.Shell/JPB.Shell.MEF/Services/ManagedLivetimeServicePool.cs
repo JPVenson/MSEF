@@ -91,8 +91,11 @@ namespace JPB.Shell.MEF.Services
         public bool DestroyLivetimeService(Tuple<IService, IServiceMetadata> service)
         {
             if (!Contains(service.Item2))
-                return false;
-            Tuple<IService, IServiceMetadata, WeakReference> firstOrDefault =
+            {
+	            return false;
+            }
+
+            var firstOrDefault =
                 Services.FirstOrDefault(s => s.Item2.Equals(service.Item2));
             return Services.Remove(firstOrDefault);
         }

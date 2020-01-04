@@ -141,7 +141,9 @@ namespace JPB.Shell.MEF.Services.Extentions
             var firstOrDefault = source.GetServiceInternal().FirstOrDefault(selector);
 
             if (firstOrDefault != null)
-                return firstOrDefault.Value as T;
+            {
+	            return firstOrDefault.Value as T;
+            }
 
             return null;
         }

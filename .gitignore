@@ -18,3 +18,7 @@
 /JPB.Shell/packages/WPFToolsAwsome.1.0.4/lib/net45
 *.suo
 /JPB.Shell/JPB.Shell/obj/x86/Debug
+/JPB.Shell/.vs/JPB.Shell/v16/Server/sqlite3
+/JPB.Shell/_ReSharper.Caches/ReSharperPlatformVs16192_8a71f6ce.JPB.Shell.00
+/_ReSharper.Caches/ReSharperPlatformVs16192_8a71f6ce.00
+/.vs

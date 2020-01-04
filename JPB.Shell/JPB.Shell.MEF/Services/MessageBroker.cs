@@ -78,8 +78,10 @@ namespace JPB.Shell.MEF.Services
             if (_receivers.ContainsKey(typeof (T)))
             {
                 list = _receivers[typeof (T)];
-                foreach (Delegate receiver in list)
-                    receiver.DynamicInvoke(message);
+                foreach (var receiver in list)
+                {
+	                receiver.DynamicInvoke(message);
+                }
             }
         }
 
@@ -94,7 +96,9 @@ namespace JPB.Shell.MEF.Services
         {
             List<Delegate> list = null;
             if (_receivers.ContainsKey(typeof (T)))
-                list = _receivers[typeof (T)];
+            {
+	            list = _receivers[typeof (T)];
+            }
             else
             {
                 list = new List<Delegate>();

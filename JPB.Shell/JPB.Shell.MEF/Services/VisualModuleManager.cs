@@ -78,7 +78,7 @@ namespace JPB.Shell.MEF.Services
         /// </returns>
         public IEnumerable<IVisualServiceMetadata> GetVisualServicesMetadata()
         {
-            IEnumerable<IVisualServiceMetadata> metadata = ServicePool.Instance.GetMetadatas<IVisualServiceMetadata>();
+            var metadata = ServicePool.Instance.GetMetadatas<IVisualServiceMetadata>();
             return metadata;
         }
 

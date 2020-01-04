@@ -93,9 +93,9 @@ namespace JPB.Shell.MEF.Log.Model
         {
             var sb = new StringBuilder();
             sb.AppendLine("Name = " + Name);
-            for (int i = 0; i < Messages.Count; i++)
+            for (var i = 0; i < Messages.Count; i++)
             {
-                KeyValuePair<string, object> item = Messages.ElementAt(i);
+                var item = Messages.ElementAt(i);
                 sb.Append("Element[");
                 sb.Append(i);
                 sb.Append("] : Item = ");
@@ -108,9 +108,11 @@ namespace JPB.Shell.MEF.Log.Model
         [NotifyPropertyChangedInvocator]
         protected virtual void SendPropertyChanged(string propertyName)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
+            var handler = PropertyChanged;
             if (handler != null)
-                handler(this, new PropertyChangedEventArgs(propertyName));
+            {
+	            handler(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }

@@ -71,14 +71,19 @@ namespace JPB.Shell.MEF.Log
         internal virtual void OnServiceInitLoad(IService obj)
         {
             var handler = ServiceInitLoad;
-            if (handler != null) handler(obj);
+            if (handler != null)
+            {
+	            handler(obj);
+            }
         }
 
         internal virtual void OnServiceLoad(IService obj)
         {
             var handler = ServiceLoad;
-            if (handler != null) 
-                handler(obj);
+            if (handler != null)
+            {
+	            handler(obj);
+            }
         }
 
         #endregion
